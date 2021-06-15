@@ -20,14 +20,21 @@
 #define MAX_CLIENT_NUM 50
 #define MAX_ID_LEN 16
 #define MAX_PW_LEN 16
-#define BUF_SIZE 1024
+
+typedef enum {
+    CMD_LOGIN_SIGNUP,
+    CMD_MODIFY_RULE,
+    CMD_SEND_CONTENT,
+    CMD_SEND_CHECK_MSG,
+    CMD_NONE
+} CMD;
 
 typedef struct {
-    enum rule_control_type {
+    enum {
         RULE_INSERT,
         RULE_DELETE,
         RULE_LIST
-    };
+    } rule_control_type;
     char website[128];
     char keyword[32];
 } RULE_CONTROL;
@@ -38,31 +45,23 @@ typedef struct {
 } CONTENT;
 
 typedef struct {
-    char type;
+    CMD type;
     char client_id[MAX_ID_LEN];
     union {
         char password[MAX_PW_LEN];
         RULE_CONTROL rule_control;
         CONTENT content;
-    }
+    } data;
 } MESSAGE;
-
-typedef enum Cmd
-{
-    CMD_LOGIN_SIGNUP,
-    CMD_MODIFY_RULE,
-    CMD_SEND_CONTENT,
-    CMD_SEND_CHECK_MSG,
-    CMD_NONE
-} CMD;
 
 typedef struct {
     char client_id[MAX_ID_LEN];
+    char password[MAX_PW_LEN];
     bool is_online;
     // subscribed websites and keywords
     // dict <string, set<string>> sub;
     // client queue
-} Client;
+} CLIENT;
 
 int getPort(int argc, char** argv);
 
