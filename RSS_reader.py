@@ -75,15 +75,16 @@ def get_updates(url, keywords, last_updated_time):
             new_dic = dict(dic)
             new_dic['keyword'] = keyword
             # keyword matches
-            if ((keyword == '') or ((keyword in dic['title'])) or ((keyword in dic['content']))):
+            if (keyword == None):
+                del new_dic['keyword']
                 updates.append(new_dic)
-        
-        # updates.append(dic)
+            elif (((keyword in dic['title'])) or ((keyword in dic['content']))):
+                updates.append(new_dic)
 
     # write_to_file(updates)
 
     return updates
 
 # url = "https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ"
-# get_updates(url, ['', 'a', 'b'], 1623388326)
+# get_updates(url, ['a', None, 'b'], 1623388326)
 
