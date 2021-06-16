@@ -39,7 +39,7 @@ def get_RSS_feed(url):
 #             f_out.write("\n")
 #     f_out.close()
 
-def get_updates(url, keyword, last_updated_time):
+def get_updates(url, keywords, last_updated_time):
     RSS_feed = get_RSS_feed(url)
     feed = feedparser.parse(RSS_feed)
     feed_entries = feed.entries
@@ -51,7 +51,7 @@ def get_updates(url, keyword, last_updated_time):
         dic = {}
         dic['url'] = url
         dic['published_time'] = None
-        dic['keyword'] = keyword
+        dic['keyword'] = ''
         dic['content'] = None   # link + summary
         dic['title'] = None
     
@@ -67,19 +67,23 @@ def get_updates(url, keyword, last_updated_time):
             # dic['summary'] = entry.summary
             dic['content'] = dic['content'] + ", summary: " + entry.summary
         
-        # keyword does not match
-        if ((not (keyword in dic['title'])) and (not (keyword in dic['content']))):
-            continue
-        
         # drop earlier updates
         if (last_updated_time > secs):
             continue
-        updates.append(dic)
+
+        for keyword in keywords:
+            new_dic = dict(dic)
+            new_dic['keyword'] = keyword
+            # keyword matches
+            if ((keyword == '') or ((keyword in dic['title'])) or ((keyword in dic['content']))):
+                updates.append(new_dic)
+        
+        # updates.append(dic)
 
     # write_to_file(updates)
 
     return updates
 
 # url = "https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ"
-# get_updates(url, '', 1623388326)
+# get_updates(url, ['', 'a', 'b'], 1623388326)
 
