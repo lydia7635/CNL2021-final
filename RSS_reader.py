@@ -1,7 +1,8 @@
 import feedparser
 import webbrowser
 import requests
-
+import json
+import time
 
 def get_RSS_feed(url):
     url_file = requests.get(url)
@@ -24,7 +25,21 @@ def get_RSS_feed(url):
     file.close()
     return RSS_feed[1]
 
-def get_updates(url):
+# def write_to_file(updates):
+#     f_out = open('updates.txt', 'w', encoding='utf-8')
+
+#     for u in updates:
+#         for key in u.keys():
+#             f_out.write(key)
+#             f_out.write("\n")
+#             if (key == "published_time"):
+#                 f_out.write(str(u[key]))
+#             else:
+#                 f_out.write(u[key])
+#             f_out.write("\n")
+#     f_out.close()
+
+def get_updates(url, keyword, last_updated_time):
     RSS_feed = get_RSS_feed(url)
     feed = feedparser.parse(RSS_feed)
     feed_entries = feed.entries
@@ -34,23 +49,37 @@ def get_updates(url):
         # print(entry.keys())
         # print(type(entry))
         dic = {}
-        dic['title'] = None
-        dic['link'] = None
+        dic['url'] = url
         dic['published_time'] = None
-        dic['summary'] = None
+        dic['keyword'] = keyword
+        dic['content'] = None   # link + summary
+        dic['title'] = None
     
+        if ('published_parsed' in entry):
+            secs = int(time.mktime(entry.published_parsed))
+            dic['published_time'] = secs # published
+            # print("sec = ", dic['published_time'], ", asctime = ", time.asctime(time.localtime(secs)))
         if ('title' in entry):
             dic['title'] = entry.title
         if ('link' in entry):
-            dic['link'] = entry.link
-        if ('published_parsed' in entry):
-            dic['published_time'] = entry.published_parsed
+            dic['content'] = "link: " + entry.link
         if ('summary' in entry):
-            dic['summary'] = entry.summary
+            # dic['summary'] = entry.summary
+            dic['content'] = dic['content'] + ", summary: " + entry.summary
+        
+        # keyword does not match
+        if ((not (keyword in dic['title'])) and (not (keyword in dic['content']))):
+            continue
+        
+        # drop earlier updates
+        if (last_updated_time > secs):
+            continue
         updates.append(dic)
+
+    # write_to_file(updates)
 
     return updates
 
 # url = "https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ"
-# updates = get_updates(url)
-# print (updates[0])
+# get_updates(url, '', 1623388326)
+
