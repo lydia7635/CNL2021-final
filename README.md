@@ -64,6 +64,7 @@ https://hackmd.io/nxUPv275TvOYYu8kwY_D7A corgi
          <url> https://hackmd.io/nxUPv275TvOYYu8kwY_D7A
          <publish_time> 1623808980
          <keyword> corgi
+         <content> corgicorgicorgi
 <end>
 ```
 
