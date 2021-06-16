@@ -1,7 +1,7 @@
 # CNL2021-final
 # ：）））））））
 ## TODO
-- UpdateManager.cpp
+- UpdatesManager.cpp
     - delete 某個 url-keyword pair from requests
         - or 每次要爬就固定從昱妤那邊抓 requests
     - 增加多個 server queue
@@ -14,15 +14,15 @@
 ### Usage
 ```cpp
 /* Declaration */
-UpdatesManager update_manager;
+UpdatesManager updates_manager;
 
 /* Add request （新增一個 URL-keyword pair）*/
 char url[MAX_URL_LEN] = "..."
 char keyword[MAX_KEYWORD_LEN] = "..."
-update_manager.AddRequest(url, keyword);
+updates_manager.AddRequest(url, keyword);
 
 /* Send request and get updates */
-update_manager.GetUpdates();
+updates_manager.GetUpdates();
 ```
 
 
