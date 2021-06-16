@@ -45,7 +45,7 @@ typedef struct request {
 ----
 ## get_update.py
 ```
-python3 ./get_update.py
+python3 ./get_updates.py
 ```
 - input file: `requests.txt`
 - output file: `updates.txt`
