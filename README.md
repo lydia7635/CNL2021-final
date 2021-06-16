@@ -1,11 +1,14 @@
 # CNL2021-final
 ## broker: client 端
+👩: 表示 client 需要實作的部份
+
 ### TO-DO
 - [x] client 登入/ 註冊
 - [ ] 修改/查看規則
 - [ ] 產生 thread 及時丟訊息給 client
 
-### client 登入/註冊 互動
+### client 登入/註冊
+  
 👩 開啟 client 後需先登入/註冊  
 輸入一組帳號密碼，在 broker 判斷帳號代表的 client 是否存在與 is_valid
 * 存在
@@ -41,3 +44,16 @@
     * broker: fd_to_client 填入
     * 如果 client 關閉連線
         * broker: 刪除這個 unverified client
+
+### 修改/查看規則
+* 新增規則
+    * website 一定要填
+    * keyword 可不填，在 broker 以 `*` 儲存
+    * [ ] 確認 website 是否合法
+* 刪除規則
+    * website 不填即代表刪除所有規則
+    * keyword 不填代表刪除該 website 下所有規則
+    * 都有填只會刪除對應規則
+* 印出規則
+    * 在 broker 端顯示
+    * [ ] 討論封包格式

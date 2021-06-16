@@ -21,16 +21,16 @@ void setNonBlocking(int socket)
 // ** CLIENT control **
 // ********************
 
-CLIENT *newClient(char *client_id)
+CLIENT *newClient(char *client_id, int socket)
 {
     CLIENT *client = (CLIENT *)malloc(sizeof(CLIENT));
 
     bzero(client->client_id, sizeof(char) * MAX_ID_LEN);
     bzero(client->password, sizeof(char) * MAX_PW_LEN);
     strncpy(client->client_id, client_id);
-    client->is_online = false;
+    client->is_online = true;
     client->is_verified = false;
-    client->locate_socket = -1;
+    client->locate_socket = socket;
     return client;
 }
 
@@ -126,10 +126,7 @@ void clientLogin(int socket, CLIENT *client, MESSAGE *recv_message)
 
 void clientSignup(int socket, MESSAGE *recv_message)
 {
-    // create unverified client
-    CLIENT *client = newClient(recv_message->client_id);
-    client->is_online = true;
-    client->locate_socket = socket;
+    CLIENT *client = newClient(recv_message->client_id, socket);
     fd_to_client[socket] = client;
     strncpy(client->password, recv_message->data.password, MAX_PW_LEN);
 
@@ -160,9 +157,65 @@ void clientSignupCheck(int socket, CLIENT *client, MESSAGE *recv_message)
     
 }
 
+void clientInsertRule(int socket, string website_string, string keyword_string)
+{
+    if(keyword_string.empty()) {
+        fd_to_client[socket]->subscribed[website_string].insert("*");
+    }
+    else {
+        fd_to_client[socket]->subscribed[website_string].insert(keyword_string);
+    }
+    break;
+}
+
+void clientDeleteRule(int socket, string website_string, string keyword_string)
+{
+    if(website_string.empty()) {    // delete all rule
+        fd_to_client[socket]->subscribed.clear()
+    }
+    else if(keyword_string.empty()) {   // delete all keywords under specific website
+        fd_to_client[socket]->subscribed.erase(website_string);
+    }
+    else {
+        if(fd_to_client[socket]->subscribed.find(website_string) != fd_to_client[socket]->subscribed.end())
+            fd_to_client[socket]->subscribed[website_string].erase(keyword_string);
+    }
+    return;
+}
+
+void clientListRule(int socket)
+{
+    for(map<string, set<string> >::iterator map_iter = (fd_to_client[socket]->subscribed).begin();
+        map_iter != (fd_to_client[socket]->subscribed).end(); iter_a++) {
+        for(set<string>::iterator set_iter = map_iter->second.begin(); set_iter != map_iter->second.end(); set_iter++) {
+            cout << "website: [" << map_iter->first << "]; keyword: [" << *set_iter << "]" << endl;
+            // TODO: send pkt
+        }
+    }
+    return;
+}
+
 void clientModifyRule(int socket, MESSAGE *recv_message)
 {
-    
+    string website_string(recv_message->data.rule_control.website);
+    string keyword_string(recv_message->data.rule_control.keyword);
+
+    map<string, set<string>>::iterator sub_iter;
+
+    switch(recv_message->data.rule_control.rule_control_type) {
+        case RULE_INSERT:
+            clientInsertRule(socket, website_string, keyword_string);
+            break;
+        case RULE_DELETE:
+            clientDeleteRule(socket, website_string, keyword_string);
+            break;
+        case RULE_LIST:
+            clientListRule(socket);
+            break;
+        default:
+            fprintf(stderr, "Socket %d: wrong rule_control_type.\n", socket);
+            break;
+    }
 }
 
 void clientClose(int socket, fd_set *read_original_set)
@@ -196,7 +249,7 @@ int childProcessing(int remote_socket, fd_set *read_original_set)
     CLIENT *client = getClient(recv_message->client_id);
 
     switch(recv_message->type) {
-        CMD_LOGIN_SIGNUP:
+        case CMD_LOGIN_SIGNUP:
             if(client != NULL) {
                 if(client->is_verified == true) {   // try to login
                     fprintf(stderr, "Socket %d: Client starts login...\n");
@@ -212,11 +265,11 @@ int childProcessing(int remote_socket, fd_set *read_original_set)
                 clientSignup(remote_socket, recv_message);
             }
             break;
-        CMD_MODIFY_RULE:
+        case CMD_MODIFY_RULE:
             clientModifyRule(remote_socket, recv_message);
             break;
         default:
-            fprintf("Error: receive other command from socket %d\n", remote_socket);
+            fprintf("Socket %d: receive other command.\n", remote_socket);
             break;
     }
     return 0;
