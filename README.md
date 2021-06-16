@@ -54,7 +54,7 @@ python3 ./get_updates.py
 - `requests.txt`
 ```python
 1623808383 # last updated time in seconds
-https://hackmd.io/nxUPv275TvOYYu8kwY_D7A corgi
+https://hackmd.io/nxUPv275TvOYYu8kwY_D7A corgi corgi-2 corgi-3 corgi-4
 ...
 ```
 
