@@ -5,7 +5,7 @@
     - delete 某個 url-keyword pair from requests
         - or 每次要爬就固定從昱妤那邊抓 requests
     - 增加多個 server queue
-- get_update.py
+- get_updates.py
     - 判斷網站的 domain 來決定要用 RSS feed or crawler
     - 確認網站的格式正確，沒有爬到奇怪的東西
 
@@ -43,7 +43,7 @@ typedef struct request {
 
 ```
 ----
-## get_update.py
+## get_updates.py
 ```
 python3 ./get_updates.py
 ```
