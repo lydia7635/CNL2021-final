@@ -76,8 +76,8 @@ typedef struct {
 } MESSAGE;
 
 typedef struct {
-    char website[MAX_WEBSITE_LEN];
-    char keyword[MAX_KEYWORD_LEN];
+    char topic[MAX_TOPIC_LEN];
+    char summary[MAX_SUMMARY_LEN];
 } QUEUE_NODE;
 
 typedef struct {
@@ -98,5 +98,7 @@ int getPort(int argc, char** argv);
 void setNonBlocking(int socket);
 
 int childProcessing(int remote_socket, fd_set *read_original_set);
+
+void queueClear(int socket);
 
 #endif

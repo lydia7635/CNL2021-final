@@ -67,6 +67,12 @@ int main(int argc, char **argv)
                     fprintf("Error %d: child processing in socket fd: %d\n", child_processing_error, remote_addr);
             }
         }
+
+        for(int i = 3; i < MAX_FD; ++i) {
+            if(FD_ISSET(i, &read_original_set) && i != local_socket) {
+                queueClear(i);
+            }
+        }
     }
     return 0;
 }

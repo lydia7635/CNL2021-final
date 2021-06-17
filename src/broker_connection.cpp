@@ -91,6 +91,15 @@ void sendLoginSignupResult(int socket, char *client_id, CLIENT_STAT client_stat)
     return;
 }
 
+void sendSubContent(int socket, QUEUE_NODE *queue_node)
+{
+    MESSAGE *send_message = createSendMessageHeader(CMD_SEND_CONTENT, fd_to_client[socket]->client_id);
+    strncpy(send_message->data.content.topic, queue_node->topic, sizeof(char) * MAX_TOPIC_LEN);
+    strncpy(send_message->data.content.summary, queue_node->summary, MAX_SUMMARY_LEN);
+    send(socket, send_message, sizeof(MESSAGE), 0);
+    return;
+}
+
 // ********************
 // ** error handling **
 // ********************
@@ -273,5 +282,17 @@ int childProcessing(int remote_socket, fd_set *read_original_set)
             break;
     }
     return 0;
+}
 
+void queueClear(int socket)
+{
+    if(fd_to_client[socket]->locate_socket == -1 || fd_to_client[socket]->is_online == false)
+        return;
+    while(!fd_to_client[socket]->client_queue.empty()) {
+        QUEUE_NODE queue_node = fd_to_client[socket]->client_queue.front();
+        
+        sendSubContent(socket, &queue_node);
+
+        fd_to_client[socket]->client_queue.pop();
+    }
 }
