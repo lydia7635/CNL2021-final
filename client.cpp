@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
             getline(cin, username);
         }
 
-        string _username = "0" + username;
+        string _username = username;
 
         if (string(send_to_server((char *) _username.c_str())) == "-1") {
             cout << "No matching username on server\n";
@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
             getline(cin, username);
         }
 
-        string _password = "1" + password;
+        string _password = password;
 
         if (string(send_to_server((char *) _password.c_str())) == "-1") {
             cout << "No matching username with that password on server\n";
