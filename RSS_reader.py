@@ -3,6 +3,7 @@ import webbrowser
 import requests
 import json
 import time
+# import re
 
 def get_RSS_feed(url):
     url_file = requests.get(url)
@@ -40,6 +41,7 @@ def get_RSS_feed(url):
 #     f_out.close()
 
 def get_updates(url, keywords, last_updated_time):
+    MAX_SUMMARY_LEN = 256
     RSS_feed = get_RSS_feed(url)
     feed = feedparser.parse(RSS_feed)
     feed_entries = feed.entries
@@ -50,10 +52,10 @@ def get_updates(url, keywords, last_updated_time):
         # print(type(entry))
         dic = {}
         dic['url'] = url
-        dic['published_time'] = None
+        dic['published_time'] = ''
         dic['keyword'] = ''
-        dic['content'] = None   # link + summary
-        dic['title'] = None
+        dic['content'] = ''   # link + summary
+        dic['title'] = ''
     
         if ('published_parsed' in entry):
             secs = int(time.mktime(entry.published_parsed))
@@ -64,8 +66,12 @@ def get_updates(url, keywords, last_updated_time):
         if ('link' in entry):
             dic['content'] = "link: " + entry.link
         if ('summary' in entry):
-            # dic['summary'] = entry.summary
-            dic['content'] = dic['content'] + ", summary: " + entry.summary
+            summary = entry.summary
+            summaries = summary.split("</p>")
+            s = summaries[0].replace("<p>", "").replace("</p>", "").replace("</strong>", "").replace("<strong>", "").replace("<h3>", "").replace("</h3>", "").replace("</pre>", "").replace("<pre>", "")
+            if (len(s) > MAX_SUMMARY_LEN):
+                s = s[0:MAX_SUMMARY_LEN]
+            dic['content'] = dic['content'] + ", summary: " + s
         
         # drop earlier updates
         if (last_updated_time > secs):
@@ -85,6 +91,6 @@ def get_updates(url, keywords, last_updated_time):
 
     return updates
 
-# url = "https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ"
-# get_updates(url, ['a', None, 'b'], 1623388326)
+# url = "https://allaboutdataanalysis.medium.com/"
+# get_updates(url, [None], 0)
 
