@@ -12,8 +12,11 @@
 #include <fstream>
 #include <sys/wait.h>
 #include <errno.h>
+#include <thread>
+#include <chrono>
 
 #include "header.h"
+using std::this_thread::sleep_for;
 
 #define MAX_WEBSITE_LEN 128
 #define MAX_KEYWORD_LEN 32
@@ -75,6 +78,7 @@ public:
     std::map<Subscribe, Client_list>* sub_client_pair;
     UpdatesManager();
     // ~UpdatesManager();
+    // void startUpdateManager(update_manager, bool END, int minute);
     void WriteRequests(std::map<string, CLIENT*> client_table);
     void GetUpdates(std::map<string, CLIENT*> client_table);       // fork python runtime, read updates from file, then enqueue to Updates
     void PushUpdates();      // push Updates to client queue

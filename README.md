@@ -15,3 +15,9 @@ updates = RSS_reader.get_updates(url)
 		* the value may be None, e.g., Some RSS_feed doesn't have key 'summary'
 		* title, link, summary: String
 		* published_time: time.struct_time
+
+## server.cpp
+### usage
+```
+g++ -pthread server.cpp
+```
