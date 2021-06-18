@@ -1,11 +1,11 @@
 # CNL2021-final
 # ：）））））））
 ## TODO
-- UpdatesManager.cpp
+- UpdateManager.cpp
     - delete 某個 url-keyword pair from requests
         - or 每次要爬就固定從昱妤那邊抓 requests
     - 增加多個 server queue
-- get_updates.py
+- get_update.py
     - 判斷網站的 domain 來決定要用 RSS feed or crawler
     - 確認網站的格式正確，沒有爬到奇怪的東西
 
@@ -14,15 +14,15 @@
 ### Usage
 ```cpp
 /* Declaration */
-UpdatesManager updates_manager;
+UpdatesManager update_manager;
 
 /* Add request （新增一個 URL-keyword pair）*/
 char url[MAX_URL_LEN] = "..."
 char keyword[MAX_KEYWORD_LEN] = "..."
-updates_manager.AddRequest(url, keyword);
+update_manager.AddRequest(url, keyword);
 
 /* Send request and get updates */
-updates_manager.GetUpdates();
+update_manager.GetUpdates();
 ```
 
 
@@ -43,9 +43,9 @@ typedef struct request {
 
 ```
 ----
-## get_updates.py
+## get_update.py
 ```
-python3 ./get_updates.py
+python3 ./get_update.py
 ```
 - input file: `requests.txt`
 - output file: `updates.txt`
@@ -54,7 +54,7 @@ python3 ./get_updates.py
 - `requests.txt`
 ```python
 1623808383 # last updated time in seconds
-https://hackmd.io/nxUPv275TvOYYu8kwY_D7A corgi corgi-2 corgi-3 corgi-4
+https://hackmd.io/nxUPv275TvOYYu8kwY_D7A corgi
 ...
 ```
 
@@ -64,7 +64,6 @@ https://hackmd.io/nxUPv275TvOYYu8kwY_D7A corgi corgi-2 corgi-3 corgi-4
          <url> https://hackmd.io/nxUPv275TvOYYu8kwY_D7A
          <publish_time> 1623808980
          <keyword> corgi
-         <content> corgicorgicorgi
 <end>
 ```
 
