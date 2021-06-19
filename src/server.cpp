@@ -1,4 +1,4 @@
-#include "UpdatesManager.h"
+#include "../inc/UpdatesManager.h"
 //#include "header.h"
 
 
