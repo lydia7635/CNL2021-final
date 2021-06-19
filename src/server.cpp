@@ -143,7 +143,7 @@ void UpdatesManager::GetUpdates(std::map<string, CLIENT*> client_table) {
     if      (pid < 0) fprintf(stderr, "fork() error\n");
     else if (pid == 0) {
         std::cout << "[Server] python3 ./hackmd_crawler.py\n";
-        if ( execlp("python3", "python3", "get_updates.py", (char *) 0) < 0 )
+        if ( execlp("python3", "python3", "src/get_updates.py", (char *) 0) < 0 )
             fprintf(stderr, "execl() error, errno = %d\n", errno);
     } 
     else if (pid > 0) {
