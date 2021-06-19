@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     
     client_table.clear();
 
-    int minute = 15;
+    int minute = 1;
 
     UpdatesManager update_manager;
     std::thread t1(startUpdateManager, update_manager, minute);
