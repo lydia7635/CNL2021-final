@@ -47,7 +47,7 @@ int main(int argc, char **argv)
         // check whether there is a new connection
         if(FD_ISSET(local_socket, &read_working_set)) {
             remote_socket = accept(local_socket, (struct sockaddr *)&remote_addr, (socklen_t*)&addr_len);
-            if (remoteSocket < 0) {
+            if (remote_socket < 0) {
                 fprintf(stderr, "accept failed!");
                 exit(1);
             }
@@ -64,13 +64,7 @@ int main(int argc, char **argv)
                 fprintf(stderr, "Received some data from socket [%d] ...\n", remote_socket);
                 int child_processing_error = childProcessing(remote_socket, &read_original_set);
                 if(child_processing_error)
-                    fprintf("Error %d: child processing in socket fd: %d\n", child_processing_error, remote_addr);
-            }
-        }
-
-        for(int i = 3; i < MAX_FD; ++i) {
-            if(FD_ISSET(i, &read_original_set) && i != local_socket) {
-                queueClear(i);
+                    fprintf(stderr, "Error %d: child processing in socket fd: %d\n", child_processing_error, remote_socket);
             }
         }
     }

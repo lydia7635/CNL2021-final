@@ -1,4 +1,8 @@
 # CNL2021-final
+## requirement
+* libcurl4-openssl-dev
+* C++11
+
 ## broker: client 端
 👩: 表示 client 需要實作的部份
 
@@ -46,18 +50,41 @@
     * 如果 client 關閉連線
         * broker: 刪除這個 unverified client
 
-### 修改/查看規則
+### 修改/查看規則或訂閱內容結果
 
-* 新增規則
+* 新增規則 (`RULE_CONTROL_TYPE RULE_INSERT`)
     * website 一定要填
-    * keyword 可不填，在 broker 以 `*` 儲存
+    * keyword 可不填，表示訂閱整個網站的操作
+    * 先訂閱整個網站，再訂閱特定關鍵字 => 訂閱特定關鍵字
+    * 先訂閱某網站中特定關鍵字，再訂閱該網站（無關鍵字） => 訂閱整個網站
+    * 網站和關鍵字不要有空格
     * [ ] 確認 website 是否合法
-* 刪除規則
+        * 支援的網址系列：HackMD 、 YouTube 、 Medium
+        * https://hackmd.io/
+        * https://www.youtube.com/c (因為有用 c 或是 channel 表示)
+        * https://xxxxx.medium.com/
+        * https://medium.com/@
+        * 會支援網址重導向
+        * 需安裝 libcurl4-openssl-dev
+* 刪除規則 (`RULE_CONTROL_TYPE RULE_DELETE`)
     * website 不填即代表刪除所有規則
     * keyword 不填代表刪除該 website 下所有規則
     * 都有填只會刪除對應規則
-* 印出規則
+* 印出規則 (`RULE_CONTROL_TYPE RULE_LIST`)
     * 在 broker 端顯示
     * [ ] 討論封包格式
+    * 送給 client 端的資料
+        * 一個封包最多裝 10 筆規則
+        * 如果 `is_last == true` ，表示是最後一個封包。可能會有 0 ~ 9 筆規則
+* 印出符合規則的訂閱內容 (`RULE_CONTROL_TYPE QUERY_CONTENT`)
+    * 下一個 section
 
 ### 從 queue 取出並丟訊息給 client
+* client 會收到 website, topic, content
+
+## Reference
+### libcurl
+* [c++ - curl.h no such file or directory - Stack Overflow](https://stackoverflow.com/questions/11471690/curl-h-no-such-file-or-directory/11471743)
+* [c - hide curl_easy_perform - Stack Overflow](https://stackoverflow.com/questions/2814988/hide-curl-easy-perform)
+* [CURLINFO_RESPONSE_CODE](https://curl.se/libcurl/c/CURLINFO_RESPONSE_CODE.html)
+* [CURLINFO_REDIRECT_URL](https://curl.se/libcurl/c/CURLINFO_REDIRECT_URL.html)
