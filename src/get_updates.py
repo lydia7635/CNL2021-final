@@ -1,6 +1,6 @@
 import requests
-from . import HackMD_crawler
-from . import RSS_reader
+import HackMD_crawler
+import RSS_reader
 
 if __name__ == '__main__':
 
