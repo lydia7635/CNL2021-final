@@ -14,6 +14,12 @@
 #include <sys/socket.h>
 #include <limits>
 
+typedef struct {
+    char client_id[MAX_ID_LEN];
+    char password[MAX_PW_LEN]; 
+} CLIENT;
+
+
 using namespace std;
 
 int user_token;
@@ -26,58 +32,89 @@ int PORT;
 char* send_to_server(char*);
 void connect_to_server();
 
+// login = enter port, username, password
 int main(int argc, char* argv[]) {
     if (argc == 3) {
-        server_hostname = string(argv[1]);
-        PORT = atoi(argv[2]);
+        CLIENT *client = (CLIENT *)malloc(sizeof(CLIENT));
+        PORT = atoi(argv[0]);
+
+        // !!!!!!!!! change the hostname later
+        server_hostname  = broker_hostname;
+        //!!!!!
+
+        client->client_id = string(argv[1]);
+        client->password = string(argv[2]);
         connect_to_server();
 
-        string username;
-        cout << "Enter username: ";
-        getline(cin, username);
-        while (!cin) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Unexpected input detected. Try again.\n";
+        // if user not found
+        if (string(sendLogintoServer(client) ) == "STAT_CHECK_PASSWORD") {
+            cout << "No matching username on server. Please sign up!\n";
+            // ask to sign up
+            string username;
             cout << "Enter username: ";
             getline(cin, username);
-        }
+            while (!cin) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Unexpected input detected. Try again.\n";
+                cout << "Enter username: ";
+                getline(cin, username);
+            }
+            string client->username = username;
 
-        string _username = username;
-
-        if (string(send_to_server((char *) _username.c_str())) == "-1") {
-            cout << "No matching username on server\n";
-            exit(1);
-        } else {
-            cout << "\nUsername found on server!\n\n";
-        }
-
-        string password;
-        cout << "Enter password: ";
-        getline(cin, password);
-        while (!cin) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Unexpected input detected. Try again.\n";
+            string password;
             cout << "Enter password: ";
-            getline(cin, username);
+            getline(cin, password);
+            while (!cin) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Unexpected input detected. Try again.\n";
+                cout << "Enter password: ";
+                getline(cin, password);
+            }
+            string client->password = password;
+            
+            if (string(sendSignUptoServer(client)) == "STAT_CHECK_PASSWORD") {
+                string passwordConfirm;
+                cout << "Enter password again for confirmation: ";
+                getline(cin, passwordConfirm);
+                while (!cin) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Unexpected input detected. Try again.\n";
+                    cout << "Enter password: ";
+                    getline(cin, passwordConfirm);
+                }
+                string client->password = passwordConfirm;
+                if (string(sendSignUptoServer(client)) == "STAT_SUCCESSFUL_SIGNUP") {
+                    // back to login page 
+                    backToLogin();
+                }
+                else if (string(sendSignUptoServer(client)) == " STAT_UNSUCCESSFUL_SIGNUP") {
+                    // back to sign up page
+                    backToSignUp();
+                }
+            }
+            //exit(1);
+        } 
+        // if user found on server
+        else{
+            if (string(sendLogintoServer(client)) == "STAT_WRONG_PASSWORD") {
+                cout << "Wrong Password\n";
+                exit(1);
+            }
+            else if (string(sendLogintoServer(client)) == "STAT_MULTIPLE_LOGIN") {
+                cout << "Multiple Login detected\n";
+                exit(1);
+            }
+            else if (string(sendLogintoServer(client)) == "STAT_SUCCESSFUL_LOGIN") {
+                cout << "Login Successful\n";
+                cout << "Please select menu: \n"
+            
+                // list you can do after login
+            }
         }
-
-        string _password = password;
-
-        if (string(send_to_server((char *) _password.c_str())) == "-1") {
-            cout << "No matching username with that password on server\n";
-            exit(1);
-        } else {
-            cout << "\nPassword found on server!\n\n";
-        }
-
-        cout << "\nLogin authentication successful.\nYour validated credentials are as follows:\n"
-             << "Username: " << username << endl
-             << "Password: " << password << endl;
-    } else {
-        cout << "Error: bad arguments\n";
-    }
+        
     return 0;
 }
 
@@ -105,13 +142,39 @@ void connect_to_server() {
     }
 }
 
-char* send_to_server(char* data) {
-    char* receive_buffer = (char*) calloc(128, sizeof(char));
+// char* send_to_server(char* data) {
+//     char* receive_buffer = (char*) calloc(128, sizeof(char));
 
+//     for (;;) {
+//         if ((send(client_socket, data, strlen(data), 0)) == -1) {
+//             perror("send");
+//             close(client_socket);
+//             exit(1);
+//         }
+
+//         if ((recv(client_socket, receive_buffer, 127, 0)) == -1) {
+//             perror("recv");
+//             send_to_server((char*) "quit");
+//             exit(1);
+//         } else {
+//             break;
+//         }
+//     }
+
+//     string s(receive_buffer);
+//     if (s == "timeout") {
+//         cout << "Connection to server timed out\n";
+//         exit(0);
+//     }
+
+//     return receive_buffer;
+// }
+void sendLogintoServer(CLIENT *client){
+    char* receive_buffer = (char*) calloc(128, sizeof(char));
     for (;;) {
-        if ((send(client_socket, data, strlen(data), 0)) == -1) {
+        if ((send(client_socket, client, sizeof(client), 0)) == -1) {
             perror("send");
-            close(client_socket);
+            close(socket);
             exit(1);
         }
 
@@ -119,7 +182,36 @@ char* send_to_server(char* data) {
             perror("recv");
             send_to_server((char*) "quit");
             exit(1);
-        } else {
+        } 
+        else {
+            break;
+        }
+    }
+
+    string s(receive_buffer);
+    if (s == "timeout") {
+        cout << "Connection to server timed out\n";
+        exit(0);
+    }
+
+    return receive_buffer;
+}
+
+void sendSignUptoServer(CLIENT *client){
+    char* receive_buffer = (char*) calloc(128, sizeof(char));
+    for (;;) {
+        if ((send(client_socket, client, sizeof(client), 0)) == -1) {
+            perror("send");
+            close(socket);
+            exit(1);
+        }
+
+        if ((recv(client_socket, receive_buffer, 127, 0)) == -1) {
+            perror("recv");
+            send_to_server((char*) "quit");
+            exit(1);
+        } 
+        else {
             break;
         }
     }
