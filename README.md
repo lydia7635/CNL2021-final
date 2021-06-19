@@ -10,7 +10,7 @@
 
 - [x] client 登入/ 註冊
 - [x] 修改/查看規則
-- [x] ~~產生 thread~~ 及時丟訊息給 client
+- [x] ~~產生 thread~~ 丟訊息給 client
 
 ### client 登入/註冊
   
@@ -58,12 +58,13 @@
     * 先訂閱整個網站，再訂閱特定關鍵字 => 訂閱特定關鍵字
     * 先訂閱某網站中特定關鍵字，再訂閱該網站（無關鍵字） => 訂閱整個網站
     * 網站和關鍵字不要有空格
-    * [ ] 確認 website 是否合法
+    * [x] 確認 website 是否合法
         * 支援的網址系列：HackMD 、 YouTube 、 Medium
         * https://hackmd.io/
-        * https://www.youtube.com/c (因為有用 c 或是 channel 表示)
+        * https://www.youtube.com/c/
+        * https://www.youtube.com/channel/
         * https://xxxxx.medium.com/
-        * https://medium.com/@
+        * https://medium.com/@xxxx
         * 會支援網址重導向
         * 需安裝 libcurl4-openssl-dev
 * 刪除規則 (`RULE_CONTROL_TYPE RULE_DELETE`)
@@ -72,7 +73,7 @@
     * 都有填只會刪除對應規則
 * 印出規則 (`RULE_CONTROL_TYPE RULE_LIST`)
     * 在 broker 端顯示
-    * [ ] 討論封包格式
+    * [x] 討論封包格式
     * 送給 client 端的資料
         * 一個封包最多裝 10 筆規則
         * 如果 `is_last == true` ，表示是最後一個封包。可能會有 0 ~ 9 筆規則
@@ -81,6 +82,7 @@
 
 ### 從 queue 取出並丟訊息給 client
 * client 會收到 website, topic, content
+* 只有要求的時候才會丟訊息出去
 
 ## Reference
 ### libcurl

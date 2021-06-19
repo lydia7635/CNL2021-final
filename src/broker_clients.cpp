@@ -16,6 +16,9 @@ CLIENT *newClient(char *client_id, int socket)
     client->is_online = true;
     client->is_verified = false;
     client->locate_socket = socket;
+
+    string client_id_string(client_id);
+    client_table[client_id_string] = client;
     return client;
 }
 
