@@ -1,4 +1,6 @@
-#include "../inc/header.h"
+// #include "../inc/header.h"
+#include "../inc/UpdatesManager.h"
+
 
 using namespace std;
 

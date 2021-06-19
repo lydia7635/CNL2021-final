@@ -1,12 +1,12 @@
-#include <iostream>
-#include <stdio.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
+// #include <iostream>
+// #include <stdio.h>
+// #include <sys/socket.h>
+// #include <arpa/inet.h>
 #include <sys/ioctl.h>
 #include <net/if.h>
-#include <unistd.h> 
-#include <string.h>
-#include <stdlib.h>
+// #include <unistd.h> 
+// #include <string.h>
+// #include <stdlib.h>
 #include <vector>
 #include <time.h>
 #include <fstream>
