@@ -15,7 +15,7 @@
 #include <thread>
 #include <chrono>
 
-#include "header.h"
+#include "../inc/UpdatesManager.h"
 using std::this_thread::sleep_for;
 
 #define MAX_WEBSITE_LEN 128
