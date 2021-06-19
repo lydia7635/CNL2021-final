@@ -208,23 +208,23 @@ void UpdatesManager::DumpUpdates() {
 //     }
 // }
 
-void startUpdateManager(UpdatesManager update_manager, bool END, int minute) {
-    while (!END) {
-        // update_manager.GetUpdates();
-        // update_manager.DumpUpdates();
-        sleep_for(std::chrono::milliseconds(minute*60*1000));
-    }
-}
+// void startUpdateManager(UpdatesManager update_manager, bool END, int minute) {
+//     while (!END) {
+//         // update_manager.GetUpdates();
+//         // update_manager.DumpUpdates();
+//         sleep_for(std::chrono::milliseconds(minute*60*1000));
+//     }
+// }
 
 
-int main(int argc, char** argv) {
-    bool END = false;
-    int minute = 15;
+// int main(int argc, char** argv) {
+//     bool END = false;
+//     int minute = 15;
 
-    UpdatesManager update_manager;
-    std::thread t1(startUpdateManager, update_manager, END, minute);
+//     UpdatesManager update_manager;
+//     std::thread t1(startUpdateManager, update_manager, END, minute);
 
-    t1.join();
+//     t1.join();
 
-    return 0;
-}
+//     return 0;
+// }
