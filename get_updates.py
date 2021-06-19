@@ -1,5 +1,6 @@
 import requests
 import HackMD_crawler
+import RSS_reader
 
 if __name__ == '__main__':
 
@@ -43,7 +44,10 @@ if __name__ == '__main__':
     requests_file.close()
         
     for url in reqs:
-        update = HackMD_crawler.get_hackmd_update(url, reqs[url]["keywords"], last_updated_time)
+        if ("hackmd.io" in url):
+            update = HackMD_crawler.get_hackmd_update(url, reqs[url]["keywords"], last_updated_time)
+        elif ("medium.com" in url or "youtube.com" in url):
+            update = RSS_reader.get_updates(url, reqs[url]["keywords"], last_updated_time)
         if update is not None:
             updates += [update]
     
