@@ -91,6 +91,7 @@ void clientSignupCheck(int socket, CLIENT *client, MESSAGE *recv_message)
         client->is_online = false;
         fd_to_client[socket] = NULL;
         client->subscribed = {};
+        client->client_queue = {};
     }
     else {
         fprintf(stderr, "Socket %d: unsuccessful signup.\n", socket);
