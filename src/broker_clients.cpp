@@ -52,7 +52,7 @@ void clientLogin(int socket, CLIENT *client, MESSAGE *recv_message)
             sendLoginSignupResult(socket, client->client_id, STAT_MULTIPLE_LOGIN);
         }
         else {
-            fprintf(stderr, "Socket %d: successful login.", socket);
+            fprintf(stderr, "Socket %d: successful login.\n", socket);
             sendLoginSignupResult(socket, client->client_id, STAT_SUCCESSFUL_LOGIN);
 
             fd_to_client[socket] = client;
@@ -90,6 +90,7 @@ void clientSignupCheck(int socket, CLIENT *client, MESSAGE *recv_message)
         client->is_verified = true;
         client->is_online = false;
         fd_to_client[socket] = NULL;
+        client->subscribed = {};
     }
     else {
         fprintf(stderr, "Socket %d: unsuccessful signup.\n", socket);
@@ -103,15 +104,16 @@ void clientSignupCheck(int socket, CLIENT *client, MESSAGE *recv_message)
 void clientInsertRule(int socket, string website_string, string keyword_string)
 {
     website_string = returnValidUrl(website_string);
+
     if(website_string.empty())
         return;
-    
     if(keyword_string.empty()) {
         fd_to_client[socket]->subscribed[website_string].clear();
     }
     else {
         fd_to_client[socket]->subscribed[website_string].insert(keyword_string);
     }
+
     return;
 }
 
