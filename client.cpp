@@ -138,7 +138,9 @@ int main(int argc, char* argv[]) {
             bzero(&RECV_PACKET, sizeof(RECV_PACKET));
             strncpy(SEND_PACKET.client_id, ID, MAX_ID_LEN); 
             SEND_PACKET.type = CMD_MODIFY_RULE;
-            
+            char tmp[MAX_KEYWORD_LEN];
+            char confirm[64];
+
             switch (cmd) {
                 case 1:
                     
@@ -149,12 +151,12 @@ int main(int argc, char* argv[]) {
                     cout << "\nPlease enter a keyword you want to subscribe: \n";
                     cout << "(Type \"N\" for no keyword subscription.)\n";
                     cout << ">>> ";
-                    char tmp[MAX_KEYWORD_LEN];
+                    
                     cin >> tmp;
                     cout << "\nReconfirm your subscription (\'N\' represents not specifying keyword): \n";
                     cout << "[WEBSITE] " << SEND_PACKET.data.rule_control.website << "\n";
                     cout << "[KEYWORD] " << tmp << "\n";
-                    char confirm[64];
+                    
                     cout << "\n[Y] Send subscription [N] Discard subscription\n";
                     cout << ">>> ";
                     cin >> confirm;
@@ -181,17 +183,62 @@ int main(int argc, char* argv[]) {
                 
                 case 2:
                     SEND_PACKET.data.rule_control.rule_control_type = RULE_DELETE;
+                    
                     // TODO:
+                    cout << "\nPlease enter the website (URL) you want to delete: \n";
+                    cout << ">>> ";
+                    cin >> SEND_PACKET.data.rule_control.website;
+                    cout << "\nPlease enter a keyword you want to delete: \n";
+                    cout << "(Type \"N\" for not specifying keyword.)\n";
+                    cout << ">>> ";
+
+                    cin >> tmp;
+                    cout << "\nReconfirm your deletion (\'N\' represents not specifying keyword): \n";
+                    cout << "[WEBSITE] " << SEND_PACKET.data.rule_control.website << "\n";
+                    cout << "[KEYWORD] " << tmp << "\n";
+
+                    cout << "\n[Y] Send deletion [N] Discard deletion\n";
+                    cout << ">>> ";
+                    cin >> confirm;
+                    cout << confirm[0] << "\n" ;
+                    while ( !(confirm[0] == 'Y' || confirm[0] == 'N') || strlen(confirm) != 1) {
+                        cout << "\nYou can only type \"Y\" or \"N\"!\n\n";
+                        cout << "[Y] Send deletion [N] Discard deletion\n";
+                        cout << ">>> ";
+                        cin >> confirm;
+                    }
+                    
+                    if (confirm[0] == 'Y') {
+                        if (strncmp(tmp, "N", MAX_KEYWORD_LEN) != 0) {
+                            strncpy(SEND_PACKET.data.rule_control.keyword, tmp, MAX_KEYWORD_LEN);
+                            cout << "HAVE KEYWORD!\n" ;
+                        }
+                        cout << "\n Subscription deleted!\n";
+                        send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+                    }
+                    else if (confirm[0] == 'N') {
+                        cout << "Choose your command again.\n";
+                    }
+
                     break;
                 case 3:
                     SEND_PACKET.data.rule_control.rule_control_type = RULE_LIST;
                     send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
                     recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);
                     cout << RECV_PACKET.data.sub_rule.rule_num << "\n";
+                    
+                    for (int i = 0; i < RECV_PACKET.data.sub_rule.rule_num; i++) {
+                        cout << "[" << i+1 << "]" << "\t";
+                        cout << RECV_PACKET.data.sub_rule.rules[i].website << "\t";
+                        cout << RECV_PACKET.data.sub_rule.rules[i].keyword << "\t";
+                        cout << "\n";
+                    }
+
                     break;
                 case 4:
                     SEND_PACKET.data.rule_control.rule_control_type = QUERY_CONTENT;
                     // TODO:
+                    
                     break;
                     
                 case 5:
