@@ -143,7 +143,7 @@ void clientListRule(int socket)
         map_iter != (fd_to_client[socket]->subscribed).end(); map_iter++) {
         
         fprintf(stderr, "Socket %d: website [%s]\n", socket, map_iter->first.c_str());
-        if(map_iter->first.empty()) {   // subscribe whole website
+        if(map_iter->second.empty()) {   // subscribe whole website
             processSendSubRule(socket, send_message, map_iter->first, "", &rule_num, false);
             continue;
         }
