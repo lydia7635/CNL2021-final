@@ -117,7 +117,8 @@ bool isLoggedin = false;
 int SelectCommand();
 void Login();
 void connect_to_server();
-void DumpClientStatInfo (CLIENT_STAT stat);
+void DumpClientStatInfo(CLIENT_STAT stat);
+void ListRules();
 
 int main(int argc, char* argv[]) {
     if (argc == 3) {
@@ -222,18 +223,7 @@ int main(int argc, char* argv[]) {
 
                     break;
                 case 3:
-                    SEND_PACKET.data.rule_control.rule_control_type = RULE_LIST;
-                    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
-                    recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);
-                    cout << RECV_PACKET.data.sub_rule.rule_num << "\n";
-                    
-                    for (int i = 0; i < RECV_PACKET.data.sub_rule.rule_num; i++) {
-                        cout << "[" << i+1 << "]" << "\t";
-                        cout << RECV_PACKET.data.sub_rule.rules[i].website << "\t";
-                        cout << RECV_PACKET.data.sub_rule.rules[i].keyword << "\t";
-                        cout << "\n";
-                    }
-
+                    ListRules();
                     break;
                 case 4:
                     SEND_PACKET.data.rule_control.rule_control_type = QUERY_CONTENT;
@@ -281,6 +271,37 @@ void connect_to_server() {
     }
 }
 
+
+void ListRules () {
+    MESSAGE SEND_PACKET, RECV_PACKET;
+    bzero(&SEND_PACKET, sizeof(SEND_PACKET));
+    bzero(&RECV_PACKET, sizeof(RECV_PACKET));
+    strncpy(SEND_PACKET.client_id, ID, MAX_ID_LEN); 
+    SEND_PACKET.type = CMD_MODIFY_RULE;
+    char tmp[MAX_KEYWORD_LEN];
+    char confirm[64];
+    
+    SEND_PACKET.data.rule_control.rule_control_type = RULE_LIST;
+    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+    int num = 1;
+    
+    cout << "\n";
+    cout << "+---------+\n";
+    cout << "|  RULES  |\n";
+    cout << "+---------+\n";
+    
+
+    while (!RECV_PACKET.data.sub_rule.is_last) {
+        recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);                    
+        
+        for (int i = 0; i < RECV_PACKET.data.sub_rule.rule_num; i++) {
+            cout << "[" << num++ << "]" << "\t";
+            cout << RECV_PACKET.data.sub_rule.rules[i].website << "\t";
+            cout << RECV_PACKET.data.sub_rule.rules[i].keyword << "\t";
+            cout << "\n";
+        }
+    }
+}
 
 void Login () {
     MESSAGE SEND_PACKET, RECV_PACKET;
