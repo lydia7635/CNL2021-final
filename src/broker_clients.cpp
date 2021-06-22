@@ -103,8 +103,8 @@ void clientSignupCheck(int socket, CLIENT *client, MESSAGE *recv_message)
 
 void clientInsertRule(int socket, string website_string, string keyword_string)
 {
+    fprintf(stderr, "Socket %d: insert website [%s], keyword [%s]", socket, website_string.c_str(), keyword_string.c_str());
     website_string = returnValidUrl(website_string);
-
     if(website_string.empty())
         return;
     if(keyword_string.empty()) {
@@ -119,6 +119,7 @@ void clientInsertRule(int socket, string website_string, string keyword_string)
 
 void clientDeleteRule(int socket, string website_string, string keyword_string)
 {
+    fprintf(stderr, "Socket %d: delete website [%s], keyword [%s]", socket, website_string.c_str(), keyword_string.c_str());
     if(website_string.empty()) {    // delete all rule
         fd_to_client[socket]->subscribed.clear();
     }
@@ -141,6 +142,7 @@ void clientListRule(int socket)
     for(map<string, set<string> >::iterator map_iter = (fd_to_client[socket]->subscribed).begin();
         map_iter != (fd_to_client[socket]->subscribed).end(); map_iter++) {
         
+        fprintf(stderr, "Socket %d: website [%s]\n", socket, map_iter->first.c_str());
         if(map_iter->first.empty()) {   // subscribe whole website
             processSendSubRule(socket, send_message, map_iter->first, "", &rule_num, false);
             continue;

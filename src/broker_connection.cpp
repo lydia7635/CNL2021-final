@@ -112,11 +112,12 @@ void processSendSubRule(int socket, MESSAGE *send_message, string website_string
     if(is_last) {
         (*rule_num)--;
         send_message->data.sub_rule.rule_num = (*rule_num) % MAX_RULE_NUM;
+        send(socket, send_message, sizeof(MESSAGE), 0);
     }
     else if(!is_last && (*rule_num) % MAX_RULE_NUM == 0) {
         send_message->data.sub_rule.rule_num = MAX_RULE_NUM;        
+        send(socket, send_message, sizeof(MESSAGE), 0);
     }
-    send(socket, send_message, sizeof(MESSAGE), 0);
 
     return;
 }
