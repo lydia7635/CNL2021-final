@@ -89,32 +89,15 @@ def get_hackmd_update(url, keywords, last_update_time):
             summary = get_summary(content, keyword)
             if summary != None:
                 updates += [ {"url": url, "publised_time": updated_time, "status": "success", "content": summary, "title": title} ]
-             
+
+    driver.quit()
+    c_service.stop()         
     return updates
 
 
-def get_hackmd_update_v2(url, keyword, last_update_time):
-    update = {"url": url}
-    if keyword != None:
-        update["keyword"] = keyword
-    r = requests.get(url)
-    if r.status_code != 200: # error handling
-        update["error_msg"] = "Error, status code: {}".format(r.status_code)
-        update["status"] = "error"
-        return update
-    update["status"] = "success"
-    options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu') 
-    driver = webdriver.Chrome("./chromedriver", options=options)
-    driver.get(url)
-    time_html = driver.execute_script("return document.getElementsByClassName('ui-lastchange text-uppercase')[0].innerHTML")
-    
-    updated_time = get_updated_time(time_html)
-    if updated_time < last_update_time:
-        return None
-    update["published_time"] = updated_time
-    if keyword != None:
-        content = driver.find_element_by_class_name("ui-view-area").text
 
-    return update
+def get_hackmd_updates(url, keywords, last_update_time):
+    updates = []
+    for keyword in keywords:
+        updates += [get_hackmd_update(url, keyword, last_update_time)]
+    return updates
