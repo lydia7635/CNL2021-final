@@ -69,12 +69,11 @@ class UpdatesManager {
 private:
     time_t last_updated_time;
     int updates_count;            // count how many updates have been done
-    int updates_period;           // define the period between consecutive updates
 public:
 
     void ReadUpdates();
     // void WriteRequests();
-
+    int updates_period;           // define the period between consecutive updates
     std::vector<Update *> updates;   
     std::map<Subscribe, Client_list>* sub_client_pair;
     UpdatesManager();

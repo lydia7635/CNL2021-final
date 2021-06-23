@@ -20,6 +20,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <curl/curl.h>
+#include <thread>
 
 using namespace std;
 
@@ -154,5 +155,7 @@ void queuePop(int socket);
 
 // process control about recv_message
 int childProcessing(int remote_socket, fd_set *read_original_set);
+void createUpdatesManagerThread(map<string, CLIENT*> client_table);
+
 
 #endif

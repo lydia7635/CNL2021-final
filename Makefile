@@ -10,7 +10,7 @@ CLIENT_EXEC = client
 all: broker client
 
 broker: $(BROKER)
-	$(CC) $(BROKER) -o $(BROKER_EXEC) $(LIBCURL)
+	$(CC) $(BROKER)  -pthread -o $(BROKER_EXEC) $(LIBCURL)
 
 client: $(CLIENT)
 	$(CC) $(CLIENT) -o $(CLIENT_EXEC)

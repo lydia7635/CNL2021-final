@@ -4,8 +4,18 @@
 using namespace std;
 
 CLIENT *fd_to_client[MAX_FD];   // mapping socket fd to client pointer
+
 map<string, CLIENT*> client_table;
+
 map<string, CLIENT*>::iterator client_table_iter;
+
+void startUpdatesManager(UpdatesManager updates_manager, int minute) {
+    while (1) {
+        sleep_for(chrono::milliseconds(minute*60*1000));
+        cout << "[UpdatesManager] Get updates..." << endl;
+        updates_manager.GetUpdates(client_table);
+    }
+}
 
 int main(int argc, char **argv)
 {
@@ -38,20 +48,15 @@ int main(int argc, char **argv)
     fprintf(stderr, "The broker is waiting for connections...\n");
     fprintf(stderr, "Broker port: %d\n", port);
 
-    /** :) **/
+    int minute = 1;
     UpdatesManager updates_manager;
-    int tmp = 10;    
+    std::thread t1(startUpdatesManager, updates_manager, minute);
+    
 
     //*************************** Connect to clients ***************************//
     while (1) {
 
-        /* :) */
-        if (tmp == 5) {
-            updates_manager.GetUpdates(client_table);
-            cout << "Get Updates :)\n";
-        }
         
-        tmp --;
 
         read_working_set = read_original_set;
         if (select(MAX_FD, &read_working_set, NULL, NULL, NULL) == -1)
@@ -81,5 +86,6 @@ int main(int argc, char **argv)
             }
         }
     }
+    t1.join();
     return 0;
 }
