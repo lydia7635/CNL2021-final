@@ -82,7 +82,7 @@ def get_updates(url, keywords, last_updated_time):
         if ('title' in entry):
             dic['title'] = entry.title
         if ('link' in entry):
-            dic['content'] = "link: " + entry.link
+            dic['content'] = "link: " + (entry.link.split("?source=rss"))[0]
         if ('summary' in entry):
             summary = entry.summary
             summaries = summary.split("</p>")
@@ -92,7 +92,7 @@ def get_updates(url, keywords, last_updated_time):
             dic['content'] = dic['content'] + ", summary: " + s
         
         # drop earlier updates
-        if (last_updated_time > secs + 36000):
+        if (last_updated_time > secs + 50400):
             continue
 
         for keyword in keywords:

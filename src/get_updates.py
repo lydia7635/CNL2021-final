@@ -59,7 +59,7 @@ if __name__ == '__main__':
     print("[Python] Complete checking, now dump all updates.")
 
     updates_file = open("updates.txt", "w")
-    keys = ["url", "publish_time", "keyword", "content"]
+    keys = ["url", "publish_time", "title", "keyword", "content"]
     for update in updates:
         url = update["url"]
         keyword = None if "keyword" not in update else update["keyword"]

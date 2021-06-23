@@ -189,6 +189,7 @@ void QueryUpdates() {
         if (strlen( RECV_PACKET.data.content.website) > 0) {
             printf("\n[%7d]\n", i++);
             cout << "[Website]\t" << RECV_PACKET.data.content.website << "\n";
+            cout << "[Topic]  \t" << RECV_PACKET.data.content.topic << "\n";
             cout << "[Content]\t" << RECV_PACKET.data.content.summary << "\n";
         } 
 
