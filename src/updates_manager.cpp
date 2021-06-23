@@ -62,9 +62,9 @@ void UpdatesManager::WriteRequests(std::map<string, CLIENT*> client_table) {
         // might cause error, since id is char[]
         requests_file << client.second->client_id << " " << client.second->subscribed.size() << "\n";         
         for (auto const& subscription : client.second->subscribed) {
-            requests_file << subscription.first << " ";           // write URL to file.
+            requests_file << subscription.first;           // write URL to file.
             for (auto keyword : subscription.second) {
-                requests_file << keyword << " ";                  // write keywords
+                requests_file << " " << keyword;                  // write keywords
                 Subscribe sub;
                 strcpy(sub.website, subscription.first.c_str());
                 strcpy(sub.keyword, keyword.c_str());
