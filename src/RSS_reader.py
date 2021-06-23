@@ -92,7 +92,7 @@ def get_updates(url, keywords, last_updated_time):
             dic['content'] = dic['content'] + ", summary: " + s
         
         # drop earlier updates
-        if (last_updated_time > secs):
+        if (last_updated_time > secs + 50400):
             continue
 
         for keyword in keywords:
@@ -113,4 +113,9 @@ def get_updates(url, keywords, last_updated_time):
 # url = "https://hackmd.io/pazTdBscT4mc8F5Q2Sy7-Q123456"
 # url = "https://hulitw.medium.com/"
 # url = "https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw"
-# updates = get_updates(url, ["x"], 0)
+# url = "https://www.youtube.com/channel/UCBH-YXxJV-UF1qkIPnzYxDg/featured"
+# url = "https://smile8www.medium.com/"
+# keywords = set()
+# keywords.add(None)
+# updates = get_updates(url, keywords, 0)
+# print(updates)
