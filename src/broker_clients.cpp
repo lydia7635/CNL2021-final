@@ -110,7 +110,7 @@ void clientSignupCheck(int socket, CLIENT *client, MESSAGE *recv_message)
 
 void clientInsertRule(int socket, string website_string, string keyword_string)
 {
-    fprintf(stderr, "Socket %d: insert website [%s], keyword [%s]", socket, website_string.c_str(), keyword_string.c_str());
+    fprintf(stderr, "Socket %d: insert website [%s], keyword [%s]\n", socket, website_string.c_str(), keyword_string.c_str());
     website_string = returnValidUrl(website_string);
     if(website_string.empty()) {
         return;
@@ -130,7 +130,7 @@ void clientInsertRule(int socket, string website_string, string keyword_string)
 void clientDeleteRule(int socket, string website_string, string keyword_string)
 {
     client_mutex.lock();
-    fprintf(stderr, "Socket %d: delete website [%s], keyword [%s]", socket, website_string.c_str(), keyword_string.c_str());
+    fprintf(stderr, "Socket %d: delete website [%s], keyword [%s]\n", socket, website_string.c_str(), keyword_string.c_str());
     if(website_string.empty()) {    // delete all rule
         fd_to_client[socket]->subscribed.clear();
     }
@@ -176,13 +176,12 @@ void queuePop(int socket)
         || fd_to_client[socket]->is_online == false)
         return;
     client_mutex.lock();
-    while(!fd_to_client[socket]->client_queue.empty()) {
-        QUEUE_NODE queue_node = fd_to_client[socket]->client_queue.front();
-        
+    for(set<QUEUE_NODE>::iterator node_iter = fd_to_client[socket]->client_queue.begin();
+        node_iter != fd_to_client[socket]->client_queue.end(); node_iter++) {
+        QUEUE_NODE queue_node = *node_iter;
         sendSubContent(socket, &queue_node, false);
-
-        fd_to_client[socket]->client_queue.pop();
     }
+    fd_to_client[socket]->client_queue.clear();
     sendSubContent(socket, NULL, true);
     client_mutex.unlock();
     return;

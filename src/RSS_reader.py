@@ -92,7 +92,7 @@ def get_updates(url, keywords, last_updated_time):
             dic['content'] = dic['content'] + ", summary: " + s
         
         # drop earlier updates
-        if (last_updated_time > secs + 32400):
+        if (last_updated_time > secs + 36000):
             continue
 
         for keyword in keywords:

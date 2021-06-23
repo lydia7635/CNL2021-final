@@ -155,14 +155,18 @@ void UpdatesManager::GetUpdates(std::map<string, CLIENT*> client_table) {
 }
 
 void UpdatesManager::PushUpdates(std::map<string, CLIENT*> client_table) {
+    // client_mutex.lock();
     for (Update *u : updates) {
         QUEUE_NODE node;
         strncpy(node.website, u->website, MAX_WEBSITE_LEN);
         strncpy(node.summary, u->content, MAX_WEBSITE_LEN);
         strncpy(node.topic, u->title, MAX_TITLE_LEN);
-        client_table[u->cliend_id]->client_queue.push(node);
+        if (client_table[u->cliend_id]->client_queue.find(node) == client_table[u->cliend_id]->client_queue.end()) {
+            client_table[u->cliend_id]->client_queue.insert(node);
+        }
         delete u;
     }
+    // client_mutex.unlock();
     updates.clear();
 }
 
@@ -181,19 +185,19 @@ void UpdatesManager::PushUpdates(std::map<string, CLIENT*> client_table) {
 //     // updates.clear();
 // }
 
-void UpdatesManager::PushUpdate(Update *u, Client_list client_list) {
-    QUEUE_NODE new_queue_node;
-    strcpy(new_queue_node.topic, u->title);
-    strcpy(new_queue_node.summary, u->content);
-    strcpy(new_queue_node.website, u->website);
+// void UpdatesManager::PushUpdate(Update *u, Client_list client_list) {
+//     QUEUE_NODE new_queue_node;
+//     strcpy(new_queue_node.topic, u->title);
+//     strcpy(new_queue_node.summary, u->content);
+//     strcpy(new_queue_node.website, u->website);
     
-    Node* current_node = client_list.head;
-    while (current_node != NULL) {
-        CLIENT* client = current_node->client;
-        client->client_queue.push(new_queue_node);
-        current_node = current_node->next;
-    }
-}
+//     Node* current_node = client_list.head;
+//     while (current_node != NULL) {
+//         CLIENT* client = current_node->client;
+//         client->client_queue.push(new_queue_node);
+//         current_node = current_node->next;
+//     }
+// }
 
 void UpdatesManager::DumpUpdate(Update *u) {
     if (u->type == UPDATE_ERROR) {

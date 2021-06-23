@@ -91,10 +91,16 @@ typedef struct {
     } data;
 } MESSAGE;
 
-typedef struct {
+typedef struct Queue_Node{
     char website[MAX_WEBSITE_LEN];
     char topic[MAX_TOPIC_LEN];
     char summary[MAX_SUMMARY_LEN];
+    bool operator==(const struct Queue_Node &o) const {
+        return (strcmp(website, o.website)==0 && strcmp(topic, o.topic)==0 && strcmp(summary, o.summary)==0);
+    }
+    bool operator<(const struct Queue_Node &o) const {
+        return (strcmp(website, o.website)!=0 || strcmp(topic, o.topic)!=0 || strcmp(summary, o.summary)!=0);
+    }
 } QUEUE_NODE;
 
 typedef struct {
@@ -104,7 +110,7 @@ typedef struct {
     bool is_verified;
     int locate_socket;
     map<string, set<string>> subscribed; // subscribed websites and keywords
-    queue<QUEUE_NODE> client_queue;   
+    set<QUEUE_NODE> client_queue;   
 } CLIENT;
 
 
