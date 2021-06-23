@@ -180,7 +180,7 @@ void QueryUpdates() {
     strncpy(SEND_PACKET.client_id, ID, MAX_ID_LEN); 
     SEND_PACKET.type = CMD_MODIFY_RULE;
     SEND_PACKET.data.rule_control.rule_control_type = QUERY_CONTENT;
-    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
     cout << "\nCheck all updates!\n";
     do {
         cout << "\n:)\n";
@@ -251,7 +251,7 @@ void InsertRule () {
             cout << "HAVE KEYWORD!\n" ;
         }
         cout << "\nNew subscription inserted!\n";
-        send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+        send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
     }
     else if (confirm[0] == 'N') {
         cout << "Choose your command again.\n";
@@ -290,13 +290,13 @@ void DeleteRule () {
         strncpy(SEND_PACKET.data.rule_control.keyword, RULES[index].keyword, MAX_KEYWORD_LEN);
         strncpy(SEND_PACKET.data.rule_control.website, RULES[index].website, MAX_WEBSITE_LEN);
         cout << "\nDelete subscription rule!\n";
-        send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+        send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
     }
     else if (confirm[0] == 'N') {
         cout << "Choose your command again.\n";
     }
 
-    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
 }
 
 void ListRules () {
@@ -308,7 +308,7 @@ void ListRules () {
     SEND_PACKET.type = CMD_MODIFY_RULE;
     
     SEND_PACKET.data.rule_control.rule_control_type = RULE_LIST;
-    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
     int num = 1;
     
     cout << "\n";
@@ -350,7 +350,7 @@ void Login () {
             cin >> SEND_PACKET.client_id;
             cout << "\nPlease enter your PASSWORD: ";
             cin >> SEND_PACKET.data.password;
-            send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+            send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
             
             /** Receive Server Reply **/
             bzero(&RECV_PACKET, sizeof(RECV_PACKET));
@@ -375,7 +375,7 @@ void Login () {
             cin >> SEND_PACKET.client_id;
             cout << "\nPlease enter a new PASSWORD: ";
             cin >> SEND_PACKET.data.password;
-            send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+            send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
             
             /** Receive Server Reply **/
             bzero(&RECV_PACKET, sizeof(RECV_PACKET));
@@ -386,13 +386,13 @@ void Login () {
                 cin >> SEND_PACKET.data.password;
                 string second_password(SEND_PACKET.data.password);
                 if (first_password == second_password) {
-                    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+                    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
                     bzero(&RECV_PACKET, sizeof(RECV_PACKET));
                     recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);
                     DumpClientStatInfo(RECV_PACKET.data.client_stat);
 
                     /* Automatic Login */
-                    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+                    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
                     bzero(&RECV_PACKET, sizeof(RECV_PACKET));
                     recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);
                     DumpClientStatInfo(RECV_PACKET.data.client_stat);
@@ -410,13 +410,13 @@ void Login () {
                             string second_password(SEND_PACKET.data.password);
                         }
                         else {
-                            send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+                            send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
                             bzero(&RECV_PACKET, sizeof(RECV_PACKET));
                             recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);
                             DumpClientStatInfo(RECV_PACKET.data.client_stat);
                             
                             /* Automatic Login */
-                            send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+                            send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
                             bzero(&RECV_PACKET, sizeof(RECV_PACKET));
                             recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);
                             DumpClientStatInfo(RECV_PACKET.data.client_stat);
@@ -432,7 +432,7 @@ void Login () {
             }
             else if (RECV_PACKET.data.client_stat == STAT_SUCCESSFUL_SIGNUP) {
                 /* Automatic Login */
-                send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+                send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
                 bzero(&RECV_PACKET, sizeof(RECV_PACKET));
                 recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);
                 DumpClientStatInfo(RECV_PACKET.data.client_stat);

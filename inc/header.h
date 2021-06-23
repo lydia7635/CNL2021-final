@@ -21,6 +21,7 @@
 #include <netinet/in.h>
 #include <curl/curl.h>
 #include <thread>
+#include <mutex>
 
 using namespace std;
 
@@ -114,6 +115,7 @@ typedef struct {
 extern CLIENT *fd_to_client[MAX_FD];   // mapping socket fd to client pointer
 extern map<string, CLIENT*> client_table;
 extern map<string, CLIENT*>::iterator client_table_iter;
+extern mutex client_mutex;
 
 
 // *********************

@@ -18,7 +18,9 @@ CLIENT *newClient(char *client_id, int socket)
     client->locate_socket = socket;
 
     string client_id_string(client_id);
+    client_mutex.lock();
     client_table[client_id_string] = client;
+    client_mutex.unlock();
     return client;
 }
 
@@ -34,8 +36,10 @@ CLIENT *getClient(char *client_id)
 
 void deleteClient(char *client_id)
 {
+    client_mutex.lock();
     string client_id_string(client_id);
     client_table.erase(client_id_string);
+    client_mutex.unlock();
     return;
 }
 
@@ -90,8 +94,10 @@ void clientSignupCheck(int socket, CLIENT *client, MESSAGE *recv_message)
         client->is_verified = true;
         client->is_online = false;
         fd_to_client[socket] = NULL;
+        client_mutex.lock();
         client->subscribed = {};
         client->client_queue = {};
+        client_mutex.unlock();
     }
     else {
         fprintf(stderr, "Socket %d: unsuccessful signup.\n", socket);
@@ -106,20 +112,24 @@ void clientInsertRule(int socket, string website_string, string keyword_string)
 {
     fprintf(stderr, "Socket %d: insert website [%s], keyword [%s]", socket, website_string.c_str(), keyword_string.c_str());
     website_string = returnValidUrl(website_string);
-    if(website_string.empty())
+    if(website_string.empty()) {
         return;
+    }
+    client_mutex.lock();
     if(keyword_string.empty()) {
         fd_to_client[socket]->subscribed[website_string].clear();
     }
     else {
         fd_to_client[socket]->subscribed[website_string].insert(keyword_string);
     }
+    client_mutex.unlock();
 
     return;
 }
 
 void clientDeleteRule(int socket, string website_string, string keyword_string)
 {
+    client_mutex.lock();
     fprintf(stderr, "Socket %d: delete website [%s], keyword [%s]", socket, website_string.c_str(), keyword_string.c_str());
     if(website_string.empty()) {    // delete all rule
         fd_to_client[socket]->subscribed.clear();
@@ -131,6 +141,7 @@ void clientDeleteRule(int socket, string website_string, string keyword_string)
         if(fd_to_client[socket]->subscribed.find(website_string) != fd_to_client[socket]->subscribed.end())
             fd_to_client[socket]->subscribed[website_string].erase(keyword_string);
     }
+    client_mutex.unlock();
     return;
 }
 
@@ -164,6 +175,7 @@ void queuePop(int socket)
     if(fd_to_client[socket]->locate_socket == -1
         || fd_to_client[socket]->is_online == false)
         return;
+    client_mutex.lock();
     while(!fd_to_client[socket]->client_queue.empty()) {
         QUEUE_NODE queue_node = fd_to_client[socket]->client_queue.front();
         
@@ -172,6 +184,7 @@ void queuePop(int socket)
         fd_to_client[socket]->client_queue.pop();
     }
     sendSubContent(socket, NULL, true);
+    client_mutex.unlock();
     return;
 }
 

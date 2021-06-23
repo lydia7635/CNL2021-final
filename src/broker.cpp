@@ -6,8 +6,9 @@ using namespace std;
 CLIENT *fd_to_client[MAX_FD];   // mapping socket fd to client pointer
 
 map<string, CLIENT*> client_table;
-
 map<string, CLIENT*>::iterator client_table_iter;
+
+mutex client_mutex;
 
 void startUpdatesManager(UpdatesManager updates_manager, int minute) {
     while (1) {
@@ -25,7 +26,9 @@ int main(int argc, char **argv)
     for(int i = 0; i < MAX_FD; ++i)
         fd_to_client[i] = NULL;
     
+    client_mutex.lock();
     client_table.clear();
+    client_mutex.unlock();
 
 
     //*************************** Socket Preprocessing ***************************//
@@ -50,7 +53,7 @@ int main(int argc, char **argv)
 
     int minute = 1;
     UpdatesManager updates_manager;
-    std::thread t1(startUpdatesManager, updates_manager, minute);
+    thread t1(startUpdatesManager, updates_manager, minute);
     
 
     //*************************** Connect to clients ***************************//
