@@ -1,361 +1,48 @@
 <start>
 	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=x-N9a6lPEyY, summary: Seori on ASIA RISING TOGETHER
-
-00:12 Running through the Night
-04:12 I Wanna Cry
-07:19 Lovers in the Night
-
-Follow Seori
-Twitter @seori_official
-Instagram @iam_seori
-
-Subscribe to 88rising
-http://88rising.lnk.to/subscribe
-
-Follow 88rising
-http://instagram.
+	 <url> https://www.youtube.com/c/HungyiLeeNTU
+	 <keyword> 機器學習
+	 <content> link: https://www.youtube.com/watch?v=JXDjNh2qlfc, summary: 
 <end>
 <start>
 	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> G
-	 <content> link: https://www.youtube.com/watch?v=x-N9a6lPEyY, summary: Seori on ASIA RISING TOGETHER
-
-00:12 Running through the Night
-04:12 I Wanna Cry
-07:19 Lovers in the Night
-
-Follow Seori
-Twitter @seori_official
-Instagram @iam_seori
-
-Subscribe to 88rising
-http://88rising.lnk.to/subscribe
-
-Follow 88rising
-http://instagram.
+	 <url> https://www.youtube.com/c/HungyiLeeNTU
+	 <keyword> 機器學習
+	 <content> link: https://www.youtube.com/watch?v=Q68Eh-wm1Ts, summary: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/meta_v3.pdf
 <end>
 <start>
 	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=v9XGA3jGv74, summary: Watch the official video - https://AUDREYNUNA.lnk.to/TopAgainVideo 
-Listen to the project, ‘a liquid breakfast’ - http://audreynuna.lnk.to/aliquidbreakfast 
-
-Subscribe to AUDREY NUNA’s YouTube Channel:
-https://Audrey.lnk.to/YouTube   
-
-Follow AUDREY NUNA
-h
+	 <url> https://www.youtube.com/c/HungyiLeeNTU
+	 <keyword> 機器學習
+	 <content> link: https://www.youtube.com/watch?v=xoastiYx9JU, summary: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/meta_v3.pdf
 <end>
 <start>
 	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> G
-	 <content> link: https://www.youtube.com/watch?v=v9XGA3jGv74, summary: Watch the official video - https://AUDREYNUNA.lnk.to/TopAgainVideo 
-Listen to the project, ‘a liquid breakfast’ - http://audreynuna.lnk.to/aliquidbreakfast 
-
-Subscribe to AUDREY NUNA’s YouTube Channel:
-https://Audrey.lnk.to/YouTube   
-
-Follow AUDREY NUNA
-h
+	 <url> https://www.youtube.com/c/HungyiLeeNTU
+	 <keyword> 機器學習
+	 <content> link: https://www.youtube.com/watch?v=xrlbLPaq_Og, summary: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/tiny_v7.pdf
 <end>
 <start>
 	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=1O4lhX8xEL4, summary: MAMA Drive-by-Kitchen & LTSC on ASIA RISING TOGETHER
-
-
-Follow MAMA 
-Instagram @mama_losangeles
-TikTok @mamamealtalk
-drivebykitchen.com
-
-Follow Little Tokyo Service Center
-Instagram @ltsc.cdc
-
-Restaurants shown in video:
-Fugetsu-Do: (315 E. 1st St., Los Ang
+	 <url> https://www.youtube.com/c/HungyiLeeNTU
+	 <keyword> 機器學習
+	 <content> link: https://www.youtube.com/watch?v=utk3EnAUh-g, summary: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/tiny_v7.pdf
 <end>
 <start>
 	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> G
-	 <content> link: https://www.youtube.com/watch?v=1O4lhX8xEL4, summary: MAMA Drive-by-Kitchen & LTSC on ASIA RISING TOGETHER
-
-
-Follow MAMA 
-Instagram @mama_losangeles
-TikTok @mamamealtalk
-drivebykitchen.com
-
-Follow Little Tokyo Service Center
-Instagram @ltsc.cdc
-
-Restaurants shown in video:
-Fugetsu-Do: (315 E. 1st St., Los Ang
+	 <url> https://www.youtube.com/c/HungyiLeeNTU
+	 <keyword> 機器學習
+	 <content> link: https://www.youtube.com/watch?v=Y9Jay_vxOsM, summary: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/life_v2.pdf
 <end>
 <start>
 	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=Q-JUnvow3zE, summary: MAMA Drive-by-Kitchen & KYCC on ASIA RISING TOGETHER
-
-Follow MAMA 
-Instagram @mama_losangeles
-TikTok @mamamealtalk
-drivebykitchen.com
-
-Follow KYCC
-Instagram @kyccla
-
-Restaurants shown in video:
-Kouraku (Closed)
-Azay Little Tokyo (226 E 1st St., Los Angeles
+	 <url> https://www.youtube.com/c/HungyiLeeNTU
+	 <keyword> 機器學習
+	 <content> link: https://www.youtube.com/watch?v=rWF9sg5w6Zk, summary: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/life_v2.pdf
 <end>
 <start>
 	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> G
-	 <content> link: https://www.youtube.com/watch?v=Q-JUnvow3zE, summary: MAMA Drive-by-Kitchen & KYCC on ASIA RISING TOGETHER
-
-Follow MAMA 
-Instagram @mama_losangeles
-TikTok @mamamealtalk
-drivebykitchen.com
-
-Follow KYCC
-Instagram @kyccla
-
-Restaurants shown in video:
-Kouraku (Closed)
-Azay Little Tokyo (226 E 1st St., Los Angeles
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=GmuC68RjthI, summary: From Asia Rising Together: Benefit Concert
-0:53 KOAD - pots n' pans
-3:03 KOAD - jaunty
-
-Listen to jaunty: https://KOAD.lnk.to/jaunty
-Watch the official "jaunty" music video:
-https://KOAD.lnk.to/jaunty-MVID
-
-CHARITY MERCH HERE: https://asiarising.shop/
-100%
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> G
-	 <content> link: https://www.youtube.com/watch?v=GmuC68RjthI, summary: From Asia Rising Together: Benefit Concert
-0:53 KOAD - pots n' pans
-3:03 KOAD - jaunty
-
-Listen to jaunty: https://KOAD.lnk.to/jaunty
-Watch the official "jaunty" music video:
-https://KOAD.lnk.to/jaunty-MVID
-
-CHARITY MERCH HERE: https://asiarising.shop/
-100%
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=Utp67xKkbME, summary: 
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=8hzAiiX7XyM, summary: "California" by Rich Brian, NIKI, & Warren Hue - out now: http://88rising.lnk.to/CaliforniaID
-
-Follow Rich Brian
-http://instagram.com/brianimanuel​
-http://youtube.com/richbrian​
-http://twitter.com/richbrian​
-http://facebook.com/iamrichbrian​
-
-Follow NIKI
-h
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> G
-	 <content> link: https://www.youtube.com/watch?v=rAPwrsYOvls, summary: RZA, Dumbfoundead and Sean Miyashiro on solidarity + community as featured on ASIA RISING TOGETHER. 
-
-Special thanks to AT&amp;T.
-
-Subscribe to 88rising
-http://88rising.lnk.to/subscribe
-
-Follow 88rising
-http://instagram.com/88rising
-http://twitter.com/88ri
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=81rLLSWXuNs, summary: VERSE OF THE YEAR 🏆🏆🏆
-"California" by Rich Brian, NIKI, & Warren Hue - out now: http://88rising.lnk.to/CaliforniaID
-
-Follow NIKI
-http://instagram.com/nikizefanya
-http://twitter.com/nikizefanya
-http://facebook.com/nikizefanya
-
-Follow Rich Brian
-http://insta
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> G
-	 <content> link: https://www.youtube.com/watch?v=TnZlq-IQR-k, summary: 88rising partners with Microsoft to bring you a never ending remix live stream of Warren Hue’s new single “Too Many Tears”, drawing inspiration from the San Gabriel Valley, one of the largest Asian American communities in the US, powered by Microsoft's AI 
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=iMpfxb1U_pE, summary: Guapdad 4000 on ASIA RISING TOGETHER at L.A. Rose Cafe. Special thanks to AT&amp;T.
-
-0:00 Intro
-1:30 Guapdad 4000 - Chicken Adobo
-5:19 Guapdad 4000 - Big Shot
-
-'1176' Album Out Now: http://Guapdad4000.lnk.to/1176
-
-Follow Guapdad 4000
-http://twitter.com/gua
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> G
-	 <content> link: https://www.youtube.com/watch?v=iMpfxb1U_pE, summary: Guapdad 4000 on ASIA RISING TOGETHER at L.A. Rose Cafe. Special thanks to AT&amp;T.
-
-0:00 Intro
-1:30 Guapdad 4000 - Chicken Adobo
-5:19 Guapdad 4000 - Big Shot
-
-'1176' Album Out Now: http://Guapdad4000.lnk.to/1176
-
-Follow Guapdad 4000
-http://twitter.com/gua
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=k8yK7gqrbMU, summary: From Asia Rising Together: Benefit Concert
-
-0:00 Intro
-1:31 mxmtoon - almost home
-5:56 mxmtoon - fever dream
-
-CHARITY MERCH HERE: https://asiarising.shop/
-100% of proceeds from this collection will go to Asian Mental Health Collective, a non-profit which a
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> G
-	 <content> link: https://www.youtube.com/watch?v=k8yK7gqrbMU, summary: From Asia Rising Together: Benefit Concert
-
-0:00 Intro
-1:31 mxmtoon - almost home
-5:56 mxmtoon - fever dream
-
-CHARITY MERCH HERE: https://asiarising.shop/
-100% of proceeds from this collection will go to Asian Mental Health Collective, a non-profit which a
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=zq7XC9mjh4A, summary: HEAD IN THE CLOUDS MUSIC & ARTS FESTIVAL!
-NOV 6TH & 7TH 2021 @ BROOKSIDE AT THE ROSE BOWL PASADENA, CA.
-PRESALE TICKETS ON SALE NOW.
-ONLY CHANCE TO BUY PASSES AT THE LOWEST PRICE!
-REGISTER FOR PRESALE ACCESS AT HTTPS://88RISING.COM
-SEE YOU SOON ♥️
-
-Subscri
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> G
-	 <content> link: https://www.youtube.com/watch?v=zq7XC9mjh4A, summary: HEAD IN THE CLOUDS MUSIC & ARTS FESTIVAL!
-NOV 6TH & 7TH 2021 @ BROOKSIDE AT THE ROSE BOWL PASADENA, CA.
-PRESALE TICKETS ON SALE NOW.
-ONLY CHANCE TO BUY PASSES AT THE LOWEST PRICE!
-REGISTER FOR PRESALE ACCESS AT HTTPS://88RISING.COM
-SEE YOU SOON ♥️
-
-Subscri
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=EHeELL-WgAs, summary: From Asia Rising Together: Benefit Concert
-
-0:00 Intro
-0:52 NIKI - Drive On
-4:50 Rich Brian, NIKI, & Warren Hue - California 
-
-Watch the official music video for "California" by Rich Brian, NIKI, & Warren Hue - out now: 88rising.lnk.to/California-MV
-
-CHARI
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> G
-	 <content> link: https://www.youtube.com/watch?v=EHeELL-WgAs, summary: From Asia Rising Together: Benefit Concert
-
-0:00 Intro
-0:52 NIKI - Drive On
-4:50 Rich Brian, NIKI, & Warren Hue - California 
-
-Watch the official music video for "California" by Rich Brian, NIKI, & Warren Hue - out now: 88rising.lnk.to/California-MV
-
-CHARI
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> C
-	 <content> link: https://www.youtube.com/watch?v=_KzHGbpxMOY, summary: Official music video for "California" by Rich Brian, NIKI, & Warren Hue - out now: http://88rising.lnk.to/CaliforniaID
-
-Music video directed by Jason Ano
-EP: Christopher Heinrich
-Producer: Abby Wu
-AD: Francis Galluppi
-DP: Andrew Yuyi Truong
-Steadicam Opera
-<end>
-<start>
-	 <client_id> a
-	 <url> https://www.youtube.com/c/88rising
-	 <keyword> G
-	 <content> link: https://www.youtube.com/watch?v=_KzHGbpxMOY, summary: Official music video for "California" by Rich Brian, NIKI, & Warren Hue - out now: http://88rising.lnk.to/CaliforniaID
-
-Music video directed by Jason Ano
-EP: Christopher Heinrich
-Producer: Abby Wu
-AD: Francis Galluppi
-DP: Andrew Yuyi Truong
-Steadicam Opera
+	 <url> https://www.youtube.com/c/HungyiLeeNTU
+	 <keyword> 機器學習
+	 <content> link: https://www.youtube.com/watch?v=75rZwxKBAf0, summary: slides: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/drl_v5.pdf
 <end>

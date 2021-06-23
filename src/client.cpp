@@ -184,9 +184,10 @@ void QueryUpdates() {
     cout << "\nCheck all updates!\n";
     int i = 1;
     do {
+        
+        recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL); 
         if (strlen( RECV_PACKET.data.content.website) > 0) {
             printf("\n[%7d]\n", i++);
-            recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL); 
             cout << "[Website]\t" << RECV_PACKET.data.content.website << "\n";
             cout << "[Content]\t" << RECV_PACKET.data.content.summary << "\n";
         } 
