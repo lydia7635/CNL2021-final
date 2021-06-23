@@ -62,6 +62,7 @@ typedef struct {
 } RULE_CONTROL;
 
 typedef struct {
+    bool is_last;
     char website[MAX_WEBSITE_LEN];
     char topic[MAX_TOPIC_LEN];
     char summary[MAX_SUMMARY_LEN];
@@ -180,9 +181,14 @@ void QueryUpdates() {
     SEND_PACKET.type = CMD_MODIFY_RULE;
     SEND_PACKET.data.rule_control.rule_control_type = QUERY_CONTENT;
     send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
-    recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);                    
-    cout << RECV_PACKET.data.content.website << "\n";
-    cout << RECV_PACKET.data.content.summary << "\n";
+    cout << "\nCheck all updates!\n";
+    do {
+        cout << "\n:)\n";
+        recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL); 
+        cout << RECV_PACKET.data.content.website << "\n";
+        cout << RECV_PACKET.data.content.summary << "\n";
+    } while (!RECV_PACKET.data.content.is_last);
+    
 }
 
 void connect_to_server() {
@@ -251,6 +257,7 @@ void InsertRule () {
         cout << "Choose your command again.\n";
     }
 }
+
 void DeleteRule () {
     MESSAGE SEND_PACKET;
     bzero(&SEND_PACKET, sizeof(SEND_PACKET));
@@ -310,7 +317,7 @@ void ListRules () {
     cout << "+---------+\n";
     
 
-    while (!RECV_PACKET.data.sub_rule.is_last) {
+    do {
         recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);                    
         
         for (int i = 0; i < RECV_PACKET.data.sub_rule.rule_num; i++) {
@@ -320,7 +327,7 @@ void ListRules () {
             cout << RECV_PACKET.data.sub_rule.rules[i].keyword << "\t";
             cout << "\n";
         }
-    }
+    } while (!RECV_PACKET.data.sub_rule.is_last);
 }
 
 void Login () {

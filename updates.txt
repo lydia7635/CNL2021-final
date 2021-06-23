@@ -1,0 +1,48 @@
+<start>
+	 <client_id> a
+	 <url> https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ
+	 <keyword> 機器
+	 <content> link: https://www.youtube.com/watch?v=JXDjNh2qlfc, summary: 
+<end>
+<start>
+	 <client_id> a
+	 <url> https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ
+	 <keyword> 機器
+	 <content> link: https://www.youtube.com/watch?v=Q68Eh-wm1Ts, summary: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/meta_v3.pdf
+<end>
+<start>
+	 <client_id> a
+	 <url> https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ
+	 <keyword> 機器
+	 <content> link: https://www.youtube.com/watch?v=xoastiYx9JU, summary: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/meta_v3.pdf
+<end>
+<start>
+	 <client_id> a
+	 <url> https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ
+	 <keyword> 機器
+	 <content> link: https://www.youtube.com/watch?v=xrlbLPaq_Og, summary: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/tiny_v7.pdf
+<end>
+<start>
+	 <client_id> a
+	 <url> https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ
+	 <keyword> 機器
+	 <content> link: https://www.youtube.com/watch?v=utk3EnAUh-g, summary: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/tiny_v7.pdf
+<end>
+<start>
+	 <client_id> a
+	 <url> https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ
+	 <keyword> 機器
+	 <content> link: https://www.youtube.com/watch?v=Y9Jay_vxOsM, summary: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/life_v2.pdf
+<end>
+<start>
+	 <client_id> a
+	 <url> https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ
+	 <keyword> 機器
+	 <content> link: https://www.youtube.com/watch?v=rWF9sg5w6Zk, summary: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/life_v2.pdf
+<end>
+<start>
+	 <client_id> a
+	 <url> https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ
+	 <keyword> 機器
+	 <content> link: https://www.youtube.com/watch?v=75rZwxKBAf0, summary: slides: https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/drl_v5.pdf
+<end>

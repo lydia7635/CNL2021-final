@@ -1,4 +1,5 @@
 #include "../inc/header.h"
+#include "../inc/updates_manager.h"
 
 using namespace std;
 
@@ -37,9 +38,21 @@ int main(int argc, char **argv)
     fprintf(stderr, "The broker is waiting for connections...\n");
     fprintf(stderr, "Broker port: %d\n", port);
 
+    /** :) **/
+    UpdatesManager updates_manager;
+    int tmp = 10;    
 
     //*************************** Connect to clients ***************************//
     while (1) {
+
+        /* :) */
+        if (tmp == 5) {
+            updates_manager.GetUpdates(client_table);
+            cout << "Get Updates :)\n";
+        }
+        
+        tmp --;
+
         read_working_set = read_original_set;
         if (select(MAX_FD, &read_working_set, NULL, NULL, NULL) == -1)
             continue;
