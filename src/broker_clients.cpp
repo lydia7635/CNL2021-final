@@ -167,10 +167,11 @@ void queuePop(int socket)
     while(!fd_to_client[socket]->client_queue.empty()) {
         QUEUE_NODE queue_node = fd_to_client[socket]->client_queue.front();
         
-        sendSubContent(socket, &queue_node);
+        sendSubContent(socket, &queue_node, false);
 
         fd_to_client[socket]->client_queue.pop();
     }
+    sendSubContent(socket, NULL, true);
     return;
 }
 

@@ -65,6 +65,7 @@ typedef struct {
 } RULE_CONTROL;
 
 typedef struct {
+    bool is_last;
     char website[MAX_WEBSITE_LEN];
     char topic[MAX_TOPIC_LEN];
     char summary[MAX_SUMMARY_LEN];
@@ -127,7 +128,7 @@ int initSocket(struct sockaddr_in *localAddr, int port);
 MESSAGE *recvData(int socket);
 MESSAGE *createSendMessageHeader(CMD type, char *client_id);
 void sendLoginSignupResult(int socket, char *client_id, CLIENT_STAT client_stat);
-void sendSubContent(int socket, QUEUE_NODE *queue_node);
+void sendSubContent(int socket, QUEUE_NODE *queue_node, bool is_last);
 void processSendSubRule(int socket, MESSAGE *send_message, string website_string, string keyword_string, int *rule_num, bool is_last);
 
 // error handling
