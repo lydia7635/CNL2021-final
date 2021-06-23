@@ -1,2 +1,6 @@
 broker
 client
+requests.txt
+source_code.txt
+updates.txt
+src/__pycache__/*
