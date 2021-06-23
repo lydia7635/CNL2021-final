@@ -52,7 +52,7 @@ void clientLogin(int socket, CLIENT *client, MESSAGE *recv_message)
             sendLoginSignupResult(socket, client->client_id, STAT_MULTIPLE_LOGIN);
         }
         else {
-            fprintf(stderr, "Socket %d: successful login.", socket);
+            fprintf(stderr, "Socket %d: successful login.\n", socket);
             sendLoginSignupResult(socket, client->client_id, STAT_SUCCESSFUL_LOGIN);
 
             fd_to_client[socket] = client;
@@ -90,6 +90,8 @@ void clientSignupCheck(int socket, CLIENT *client, MESSAGE *recv_message)
         client->is_verified = true;
         client->is_online = false;
         fd_to_client[socket] = NULL;
+        client->subscribed = {};
+        client->client_queue = {};
     }
     else {
         fprintf(stderr, "Socket %d: unsuccessful signup.\n", socket);
@@ -102,21 +104,23 @@ void clientSignupCheck(int socket, CLIENT *client, MESSAGE *recv_message)
 
 void clientInsertRule(int socket, string website_string, string keyword_string)
 {
+    fprintf(stderr, "Socket %d: insert website [%s], keyword [%s]", socket, website_string.c_str(), keyword_string.c_str());
     website_string = returnValidUrl(website_string);
     if(website_string.empty())
         return;
-    
     if(keyword_string.empty()) {
         fd_to_client[socket]->subscribed[website_string].clear();
     }
     else {
         fd_to_client[socket]->subscribed[website_string].insert(keyword_string);
     }
+
     return;
 }
 
 void clientDeleteRule(int socket, string website_string, string keyword_string)
 {
+    fprintf(stderr, "Socket %d: delete website [%s], keyword [%s]", socket, website_string.c_str(), keyword_string.c_str());
     if(website_string.empty()) {    // delete all rule
         fd_to_client[socket]->subscribed.clear();
     }
@@ -139,7 +143,8 @@ void clientListRule(int socket)
     for(map<string, set<string> >::iterator map_iter = (fd_to_client[socket]->subscribed).begin();
         map_iter != (fd_to_client[socket]->subscribed).end(); map_iter++) {
         
-        if(map_iter->first.empty()) {   // subscribe whole website
+        fprintf(stderr, "Socket %d: website [%s]\n", socket, map_iter->first.c_str());
+        if(map_iter->second.empty()) {   // subscribe whole website
             processSendSubRule(socket, send_message, map_iter->first, "", &rule_num, false);
             continue;
         }
@@ -160,8 +165,11 @@ void queuePop(int socket)
         || fd_to_client[socket]->is_online == false)
         return;
     while(!fd_to_client[socket]->client_queue.empty()) {
+
         QUEUE_NODE queue_node = fd_to_client[socket]->client_queue.front();
-        
+        /** :) **/
+        fprintf(stderr, "send a queue node\n");
+
         sendSubContent(socket, &queue_node);
 
         fd_to_client[socket]->client_queue.pop();
@@ -174,8 +182,10 @@ void clientModifyRule(int socket, MESSAGE *recv_message)
     string website_string(recv_message->data.rule_control.website);
     string keyword_string(recv_message->data.rule_control.keyword);
 
-    map<string, set<string> >::iterator sub_iter;
-
+    map<string, set<string>>::iterator sub_iter;
+    /** :) **/
+    cout <<  ":)))) " << recv_message->data.rule_control.rule_control_type << "\n";
+    cout << ":)))) " << QUERY_CONTENT << "\n";
     switch(recv_message->data.rule_control.rule_control_type) {
         case RULE_INSERT:
             clientInsertRule(socket, website_string, keyword_string);
@@ -188,6 +198,7 @@ void clientModifyRule(int socket, MESSAGE *recv_message)
             break;
         case QUERY_CONTENT:
             queuePop(socket);
+            break;
         default:
             fprintf(stderr, "Socket %d: wrong rule_control_type.\n", socket);
             break;

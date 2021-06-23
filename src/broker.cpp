@@ -1,4 +1,6 @@
 #include "../inc/header.h"
+#include "../inc/updates_manager.h"
+
 
 using namespace std;
 
@@ -37,9 +39,30 @@ int main(int argc, char **argv)
     fprintf(stderr, "The broker is waiting for connections...\n");
     fprintf(stderr, "Broker port: %d\n", port);
 
+    //*************************** Fork UpdatesManager ***************************//
 
+    UpdatesManager updates_manager;
+    
+
+    int um_count = 10;
     //*************************** Connect to clients ***************************//
-    while (1) {
+    // while (1) {
+    while (um_count > 0) {
+
+        /**#@$%P#&%(#&%(***/
+        um_count--;
+        if (um_count == 3) {
+            cout << "Get updates :)))))))))\n";
+            updates_manager.GetUpdates(client_table);
+            fprintf(stderr, "Get updates\n");
+            for (auto const& client : client_table) {
+                cout << client.first << "\n";
+                cout << client.second->client_queue.size() << "\n";
+            }
+        }
+        /**#@$%P#&%(#&%(***/
+        
+        
         read_working_set = read_original_set;
         if (select(MAX_FD, &read_working_set, NULL, NULL, NULL) == -1)
             continue;
@@ -68,5 +91,9 @@ int main(int argc, char **argv)
             }
         }
     }
+
+    
+    
+
     return 0;
 }

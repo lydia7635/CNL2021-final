@@ -100,7 +100,7 @@ typedef struct {
     bool is_online;
     bool is_verified;
     int locate_socket;
-    map<string, set<string> > subscribed; // subscribed websites and keywords
+    map<string, set<string>> subscribed; // subscribed websites and keywords
     queue<QUEUE_NODE> client_queue;   
 } CLIENT;
 

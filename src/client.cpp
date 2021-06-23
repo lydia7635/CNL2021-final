@@ -101,6 +101,7 @@ int client_socket;
 struct hostent *server_hostent;
 struct sockaddr_in their_address;
 string server_hostname;
+vector<RULE_CONTROL> RULES;
 
 /** ^_^ **/
 char *IP;
@@ -117,7 +118,11 @@ bool isLoggedin = false;
 int SelectCommand();
 void Login();
 void connect_to_server();
-void DumpClientStatInfo (CLIENT_STAT stat);
+void DumpClientStatInfo(CLIENT_STAT stat);
+void ListRules();
+void DeleteRule();
+void InsertRule();
+void QueryUpdates();
 
 int main(int argc, char* argv[]) {
     if (argc == 3) {
@@ -132,66 +137,21 @@ int main(int argc, char* argv[]) {
         Login();
 
         while (1) {
-            MESSAGE SEND_PACKET, RECV_PACKET;
             int cmd = SelectCommand();
-            bzero(&SEND_PACKET, sizeof(SEND_PACKET));
-            bzero(&RECV_PACKET, sizeof(RECV_PACKET));
-            strncpy(SEND_PACKET.client_id, ID, MAX_ID_LEN); 
-            SEND_PACKET.type = CMD_MODIFY_RULE;
             
+
             switch (cmd) {
                 case 1:
-                    
-                    SEND_PACKET.data.rule_control.rule_control_type = RULE_INSERT;
-                    cout << "\nPlease enter the website (URL) you want to subscribe: \n";
-                    cout << ">>> ";
-                    cin >> SEND_PACKET.data.rule_control.website;
-                    cout << "\nPlease enter a keyword you want to subscribe: \n";
-                    cout << "(Type \"N\" for no keyword subscription.)\n";
-                    cout << ">>> ";
-                    char tmp[MAX_KEYWORD_LEN];
-                    cin >> tmp;
-                    cout << "\nReconfirm your subscription (\'N\' represents not specifying keyword): \n";
-                    cout << "[WEBSITE] " << SEND_PACKET.data.rule_control.website << "\n";
-                    cout << "[KEYWORD] " << tmp << "\n";
-                    char confirm[64];
-                    cout << "\n[Y] Send subscription [N] Discard subscription\n";
-                    cout << ">>> ";
-                    cin >> confirm;
-                    cout << confirm[0] << "\n" ;
-                    while ( !(confirm[0] == 'Y' || confirm[0] == 'N') || strlen(confirm) != 1) {
-                        cout << "\nYou can only type \"Y\" or \"N\"!\n\n";
-                        cout << "[Y] Send subscription [N] Discard subscription\n";
-                        cout << ">>> ";
-                        cin >> confirm;
-                    }
-                    
-                    if (confirm[0] == 'Y') {
-                        if (strncmp(tmp, "N", MAX_KEYWORD_LEN) != 0) {
-                            strncpy(SEND_PACKET.data.rule_control.keyword, tmp, MAX_KEYWORD_LEN);
-                            cout << "HAVE KEYWORD!\n" ;
-                        }
-                        cout << "\nNew subscription inserted!\n";
-                        send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
-                    }
-                    else if (confirm[0] == 'N') {
-                        cout << "Choose your command again.\n";
-                    }
+                    InsertRule();
                     break;
-                
                 case 2:
-                    SEND_PACKET.data.rule_control.rule_control_type = RULE_DELETE;
-                    // TODO:
+                    DeleteRule();
                     break;
                 case 3:
-                    SEND_PACKET.data.rule_control.rule_control_type = RULE_LIST;
-                    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
-                    recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);
-                    cout << RECV_PACKET.data.sub_rule.rule_num << "\n";
+                    ListRules();
                     break;
                 case 4:
-                    SEND_PACKET.data.rule_control.rule_control_type = QUERY_CONTENT;
-                    // TODO:
+                    QueryUpdates();
                     break;
                     
                 case 5:
@@ -211,6 +171,19 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
+
+void QueryUpdates() {
+    MESSAGE SEND_PACKET, RECV_PACKET;       
+    bzero(&SEND_PACKET, sizeof(SEND_PACKET));
+    bzero(&RECV_PACKET, sizeof(RECV_PACKET));
+    strncpy(SEND_PACKET.client_id, ID, MAX_ID_LEN); 
+    SEND_PACKET.type = CMD_MODIFY_RULE;
+    SEND_PACKET.data.rule_control.rule_control_type = QUERY_CONTENT;
+    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+    recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);                    
+    cout << RECV_PACKET.data.content.website << "\n";
+    cout << RECV_PACKET.data.content.summary << "\n";
+}
 
 void connect_to_server() {
 
@@ -234,6 +207,121 @@ void connect_to_server() {
     }
 }
 
+
+void InsertRule () {
+    MESSAGE SEND_PACKET, RECV_PACKET;       
+    bzero(&SEND_PACKET, sizeof(SEND_PACKET));
+    bzero(&RECV_PACKET, sizeof(RECV_PACKET));
+    strncpy(SEND_PACKET.client_id, ID, MAX_ID_LEN); 
+    SEND_PACKET.type = CMD_MODIFY_RULE;
+    char tmp[MAX_KEYWORD_LEN];
+    char confirm[64];
+    SEND_PACKET.data.rule_control.rule_control_type = RULE_INSERT;
+    cout << "\nPlease enter the website (URL) you want to subscribe: \n";
+    cout << ">>> ";
+    cin >> SEND_PACKET.data.rule_control.website;
+    cout << "\nPlease enter a keyword you want to subscribe: \n";
+    cout << "(Type \"N\" for no keyword subscription.)\n";
+    cout << ">>> ";
+    
+    cin >> tmp;
+    cout << "\nReconfirm your subscription (\'N\' represents not specifying keyword): \n";
+    cout << "[WEBSITE] " << SEND_PACKET.data.rule_control.website << "\n";
+    cout << "[KEYWORD] " << tmp << "\n";
+    
+    cout << "\n[Y] Send subscription [N] Discard subscription\n";
+    cout << ">>> ";
+    cin >> confirm;
+    while ( !(confirm[0] == 'Y' || confirm[0] == 'N') || strlen(confirm) != 1) {
+        cout << "\nYou can only type \"Y\" or \"N\"!\n\n";
+        cout << "[Y] Send subscription [N] Discard subscription\n";
+        cout << ">>> ";
+        cin >> confirm;
+    }
+    
+    if (confirm[0] == 'Y') {
+        if (strncmp(tmp, "N", MAX_KEYWORD_LEN) != 0) {
+            strncpy(SEND_PACKET.data.rule_control.keyword, tmp, MAX_KEYWORD_LEN);
+            cout << "HAVE KEYWORD!\n" ;
+        }
+        cout << "\nNew subscription inserted!\n";
+        send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+    }
+    else if (confirm[0] == 'N') {
+        cout << "Choose your command again.\n";
+    }
+}
+void DeleteRule () {
+    MESSAGE SEND_PACKET;
+    bzero(&SEND_PACKET, sizeof(SEND_PACKET));
+    strncpy(SEND_PACKET.client_id, ID, MAX_ID_LEN);
+    SEND_PACKET.type = CMD_MODIFY_RULE;
+    SEND_PACKET.data.rule_control.rule_control_type = RULE_DELETE;
+
+    ListRules();
+    int index;
+    cout << "\nEnter the index of rule you want to delete: ";
+    cin >> index;
+    index -= 1;
+
+    cout << "\nThe subscription rule you want to delete is: \n";
+    cout << "[WEBSITE] " << RULES[index].website << "\n";
+    cout << "[KEYWORD] " << RULES[index].keyword << "\n";
+
+    char confirm[64];
+    cout << "\n[Y] Delete it [N] Discard\n";
+    cout << ">>> ";
+    cin >> confirm;
+    while ( !(confirm[0] == 'Y' || confirm[0] == 'N') || strlen(confirm) != 1) {
+        cout << "\nYou can only type \"Y\" or \"N\"!\n";
+        cout << "\n[Y] Delete it [N] Discard\n";
+        cout << ">>> ";
+        cin >> confirm;
+    }
+    
+    if (confirm[0] == 'Y') {
+        strncpy(SEND_PACKET.data.rule_control.keyword, RULES[index].keyword, MAX_KEYWORD_LEN);
+        strncpy(SEND_PACKET.data.rule_control.website, RULES[index].website, MAX_WEBSITE_LEN);
+        cout << "\nDelete subscription rule!\n";
+        send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+    }
+    else if (confirm[0] == 'N') {
+        cout << "Choose your command again.\n";
+    }
+
+    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+}
+
+void ListRules () {
+    MESSAGE SEND_PACKET, RECV_PACKET;
+    RULES.clear();
+    bzero(&SEND_PACKET, sizeof(SEND_PACKET));
+    bzero(&RECV_PACKET, sizeof(RECV_PACKET));
+    strncpy(SEND_PACKET.client_id, ID, MAX_ID_LEN); 
+    SEND_PACKET.type = CMD_MODIFY_RULE;
+    
+    SEND_PACKET.data.rule_control.rule_control_type = RULE_LIST;
+    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), MSG_WAITALL);
+    int num = 1;
+    
+    cout << "\n";
+    cout << "+---------+\n";
+    cout << "|  RULES  |\n";
+    cout << "+---------+\n";
+    
+
+    while (!RECV_PACKET.data.sub_rule.is_last) {
+        recv(client_socket, &RECV_PACKET, sizeof(RECV_PACKET), MSG_WAITALL);                    
+        
+        for (int i = 0; i < RECV_PACKET.data.sub_rule.rule_num; i++) {
+            RULES.push_back(RECV_PACKET.data.sub_rule.rules[i]);
+            cout << "[" << num++ << "]" << "\t";
+            cout << RECV_PACKET.data.sub_rule.rules[i].website << "\t";
+            cout << RECV_PACKET.data.sub_rule.rules[i].keyword << "\t";
+            cout << "\n";
+        }
+    }
+}
 
 void Login () {
     MESSAGE SEND_PACKET, RECV_PACKET;
