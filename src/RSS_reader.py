@@ -6,13 +6,16 @@ import time
 # import re
 
 def get_RSS_feed(url):
-    url_file = requests.get(url)
+    r = requests.get(url)
+    if r.status_code != 200 and r.status_code != 302:
+        return None, r
+
     filename = 'source_code.txt'
-    ff = open(filename, "wb").write(url_file.content)
+    ff = open(filename, "wb").write(r.content)
     
     file = open(filename)
     found = False
-    RSS_fead = ''
+    RSS_feed = None
     line = file.readline()
     while (line and not found):
         split_lines = line.replace('<', ' ').replace('>', ' ').replace(',', ' ').split()
@@ -21,32 +24,46 @@ def get_RSS_feed(url):
             if "RSS" in split_lines[line_idx]:
                 found = True
                 RSS_feed = split_lines[line_idx+1].replace('"', ' ').split()
-                break
+                file.close()
+                return RSS_feed[1], r
         line = file.readline()
     file.close()
-    return RSS_feed[1]
+    return RSS_feed, r
 
-# def write_to_file(updates):
-#     f_out = open('updates.txt', 'w', encoding='utf-8')
+def write_to_file(updates):
+    f_out = open('updates.txt', 'w', encoding='utf-8')
 
-#     for u in updates:
-#         for key in u.keys():
-#             f_out.write(key)
-#             f_out.write("\n")
-#             if (key == "published_time"):
-#                 f_out.write(str(u[key]))
-#             else:
-#                 f_out.write(u[key])
-#             f_out.write("\n")
-#     f_out.close()
+    for u in updates:
+        for key in u.keys():
+            f_out.write(key)
+            f_out.write("\n")
+            if (key == "published_time"):
+                f_out.write(str(u[key]))
+            else:
+                f_out.write(u[key])
+            f_out.write("\n")
+    f_out.close()
 
 def get_updates(url, keywords, last_updated_time):
     MAX_SUMMARY_LEN = 256
-    RSS_feed = get_RSS_feed(url)
-    feed = feedparser.parse(RSS_feed)
-    feed_entries = feed.entries
+    RSS_feed, r = get_RSS_feed(url)
+    if (RSS_feed != None):
+        feed = feedparser.parse(RSS_feed)
+        feed_entries = feed.entries
 
     updates = []
+
+    if RSS_feed == None or (r.status_code != 200 and r.status_code != 302): # error handling
+        for keyword in keywords:
+            dic = {"url": url}
+            if keyword != None:
+                dic["keyword"] = keyword
+            dic["error_msg"] = "Error, status code: {}".format(r.status_code)
+            dic["status"] = "error"
+            updates.append(dic)
+        # write_to_file(updates)
+        return updates
+
     for entry in feed.entries:
         # print(entry.keys())
         # print(type(entry))
@@ -56,7 +73,8 @@ def get_updates(url, keywords, last_updated_time):
         dic['keyword'] = ''
         dic['content'] = ''   # link + summary
         dic['title'] = ''
-    
+        dic["status"] = 'success'
+
         if ('published_parsed' in entry):
             secs = int(time.mktime(entry.published_parsed))
             dic['published_time'] = secs # published
@@ -92,5 +110,5 @@ def get_updates(url, keywords, last_updated_time):
     return updates
 
 # url = "https://allaboutdataanalysis.medium.com/"
-# get_updates(url, [None], 0)
-
+# url = "https://hackmd.io/pazTdBscT4mc8F5Q2Sy7-Q123456"
+# updates = get_updates(url, [None], 0)
