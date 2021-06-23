@@ -130,7 +130,10 @@ void UpdatesManager::ReadUpdates() {
 }
 
 void UpdatesManager::GetUpdates(std::map<string, CLIENT*> client_table) {
+    client_mutex.lock();
     WriteRequests(client_table);
+    client_mutex.unlock();
+    
     pid_t pid = fork();
     if      (pid < 0) fprintf(stderr, "fork() error\n");
     else if (pid == 0) {
@@ -145,7 +148,9 @@ void UpdatesManager::GetUpdates(std::map<string, CLIENT*> client_table) {
         else         ReadUpdates();
     }
     /** :) **/
+    client_mutex.lock();
     PushUpdates(client_table);
+    client_mutex.unlock();
 }
 
 void UpdatesManager::PushUpdates(std::map<string, CLIENT*> client_table) {
