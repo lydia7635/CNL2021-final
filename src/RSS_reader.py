@@ -82,7 +82,7 @@ def get_updates(url, keywords, last_updated_time):
         if ('title' in entry):
             dic['title'] = entry.title
         if ('link' in entry):
-            dic['content'] = "link: " + entry.link
+            dic['content'] = "link: " + (entry.link.split("source=rss"))[0]
         if ('summary' in entry):
             summary = entry.summary
             summaries = summary.split("</p>")
@@ -111,4 +111,6 @@ def get_updates(url, keywords, last_updated_time):
 
 # url = "https://allaboutdataanalysis.medium.com/"
 # url = "https://hackmd.io/pazTdBscT4mc8F5Q2Sy7-Q123456"
-# updates = get_updates(url, [None], 0)
+# url = "https://hulitw.medium.com/"
+# url = "https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw"
+# updates = get_updates(url, ["x"], 0)
