@@ -57,7 +57,6 @@ void UpdatesManager::WriteRequests(std::map<string, CLIENT*> client_table) {
     // sub_client_pair = new std::map<Subscribe, Client_list>;
     std::ofstream requests_file("request.txt");
     requests_file << last_updated_time << "\n";
-    last_updated_time = time(NULL);
     for (auto const& client : client_table) { 
         // might cause error, since id is char[]
         requests_file << client.second->client_id << " " << client.second->subscribed.size() << "\n";         

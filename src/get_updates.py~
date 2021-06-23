@@ -47,7 +47,7 @@ if __name__ == '__main__':
     requests_file.close()
         
     for url in reqs:
-        print("last_update_time:", last_updated_time)
+        print("last_update_time:", last_update_time)
         if ("hackmd.io" in url):
             update = HackMD_crawler.get_hackmd_update(url, reqs[url]["keywords"], last_updated_time)
         elif ("medium.com" in url or "youtube.com" in url):

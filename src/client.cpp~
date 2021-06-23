@@ -301,6 +301,7 @@ void DeleteRule () {
         cout << "Choose your command again.\n";
     }
 
+    send(client_socket, &SEND_PACKET, sizeof(SEND_PACKET), 0);
 }
 
 void ListRules () {
