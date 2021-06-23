@@ -194,6 +194,7 @@ void clientModifyRule(int socket, MESSAGE *recv_message)
             break;
         case QUERY_CONTENT:
             queuePop(socket);
+            break;
         default:
             fprintf(stderr, "Socket %d: wrong rule_control_type.\n", socket);
             break;
