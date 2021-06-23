@@ -18,4 +18,4 @@ client: $(CLIENT)
 .PHONY: clean
 
 clean:
-	rm $(BROKER_EXEC)
+	rm $(BROKER_EXEC) $(CLIENT_EXEC)
