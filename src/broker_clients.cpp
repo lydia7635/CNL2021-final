@@ -165,15 +165,13 @@ void queuePop(int socket)
         || fd_to_client[socket]->is_online == false)
         return;
     while(!fd_to_client[socket]->client_queue.empty()) {
-
         QUEUE_NODE queue_node = fd_to_client[socket]->client_queue.front();
-        /** :) **/
-        fprintf(stderr, "send a queue node\n");
-
-        sendSubContent(socket, &queue_node);
+        
+        sendSubContent(socket, &queue_node, false);
 
         fd_to_client[socket]->client_queue.pop();
     }
+    sendSubContent(socket, NULL, true);
     return;
 }
 
@@ -183,9 +181,7 @@ void clientModifyRule(int socket, MESSAGE *recv_message)
     string keyword_string(recv_message->data.rule_control.keyword);
 
     map<string, set<string>>::iterator sub_iter;
-    /** :) **/
-    cout <<  ":)))) " << recv_message->data.rule_control.rule_control_type << "\n";
-    cout << ":)))) " << QUERY_CONTENT << "\n";
+
     switch(recv_message->data.rule_control.rule_control_type) {
         case RULE_INSERT:
             clientInsertRule(socket, website_string, keyword_string);

@@ -1,6 +1,5 @@
 #include "../inc/header.h"
 
-
 using namespace std;
 
 // **************************
@@ -89,12 +88,19 @@ void sendLoginSignupResult(int socket, char *client_id, CLIENT_STAT client_stat)
     return;
 }
 
-void sendSubContent(int socket, QUEUE_NODE *queue_node)
+void sendSubContent(int socket, QUEUE_NODE *queue_node, bool is_last)
 {
     MESSAGE *send_message = createSendMessageHeader(CMD_SEND_CONTENT, fd_to_client[socket]->client_id);
-    strncpy(send_message->data.content.website, queue_node->website, sizeof(char) * MAX_WEBSITE_LEN);
-    strncpy(send_message->data.content.topic, queue_node->topic, sizeof(char) * MAX_TOPIC_LEN);
-    strncpy(send_message->data.content.summary, queue_node->summary, sizeof(char) * MAX_SUMMARY_LEN);
+    bzero(send_message, sizeof(MESSAGE));
+    if(is_last) {
+        send_message->data.content.is_last = true;
+    }
+    else {
+        send_message->data.content.is_last = false;
+        strncpy(send_message->data.content.website, queue_node->website, sizeof(char) * MAX_WEBSITE_LEN);
+        strncpy(send_message->data.content.topic, queue_node->topic, sizeof(char) * MAX_TOPIC_LEN);
+        strncpy(send_message->data.content.summary, queue_node->summary, sizeof(char) * MAX_SUMMARY_LEN);
+    }
     send(socket, send_message, sizeof(MESSAGE), 0);
     return;
 }
