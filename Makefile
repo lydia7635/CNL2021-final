@@ -18,4 +18,4 @@ client: $(CLIENT)
 .PHONY: clean
 
 clean:
-	rm $(BROKER_EXEC) $(CLIENT_EXEC) HackMD_cache.json request.txt updates.txt source_code.txt
+	rm -f $(BROKER_EXEC) $(CLIENT_EXEC) HackMD_cache.json request.txt updates.txt source_code.txt
